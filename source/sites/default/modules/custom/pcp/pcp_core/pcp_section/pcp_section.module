@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * Define module-provided node types.
+ * @see hook_node_info()
+ * 
+ * @link http://api.drupal.org/api/drupal/modules!node!node.api.php/function/hook_node_info/7
+ * 
+ * @return type An array of information defining the module's node types. The 
+ *      array contains a sub-array for each node type, with the machine-readable 
+ *      type name as the key.
+ */
+function pcp_section_node_info() {
+	return array(
+	  'pcp_section' => array(
+		'name' => t('Section Content'),
+		'description' => t('Section content defines major areas of the site,'
+			. ' with fields to populate the carousel, navigation, and '
+			. 'headers for a given section on the home page.'),
+		'base' => 'node_content',
+		'has_title' => TRUE,
+		'locked' => FALSE,
+	  )
+	);
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function pcp_section_theme_registry_alter(&$theme_registry) {
+	// Defined path to the current module.
+	$module_path = drupal_get_path('module', 'pcp_section');
+	// Find all .tpl.php files in this module's folder recursively.
+	$template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+	// Iterate through all found template file objects.
+	foreach ($template_file_objects as $key => $template_file_object) {
+		// If the template has not already been overridden by a theme.
+		if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+			// Alter the theme path and template elements.
+			$theme_registry[$key]['theme path'] = $module_path;
+			$theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+			$theme_registry[$key]['type'] = 'module';
+		}
+	}
+}
+
+/**
+ * Implements hook_preprocess_HOOK()
+ */
+function pcp_section_form_pcp_section_node_form_alter(&$form, &$form_state) {
+	// show the subsection area when subsection type selected
+	$form['field_subsection']['#states'] = array(
+	  'visible' => array( // action to take.
+		':input[name="field_section_type[und]"]' => array('value' => 'subsections'),
+	  ),
+	);
+	
+	// show the past member image area when subsection type selected
+	$form['field_svg_imageset']['#states'] = array(
+	  'visible' => array( // action to take.
+		':input[name="field_section_type[und]"]' => array('value' => 'members'),
+	  ),
+	);
+}

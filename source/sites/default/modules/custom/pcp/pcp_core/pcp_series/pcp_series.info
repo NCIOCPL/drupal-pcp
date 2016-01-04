@@ -1,0 +1,6 @@
+name = "Series"
+description = "Series Content Type"
+package = "PCP"
+core = 7.x
+
+dependencies[] = pcp_core

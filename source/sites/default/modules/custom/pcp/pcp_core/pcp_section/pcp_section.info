@@ -1,0 +1,6 @@
+name = "Section"
+description = "Section Content Type"
+package = "PCP"
+core = 7.x
+
+dependencies[] = pcp_core

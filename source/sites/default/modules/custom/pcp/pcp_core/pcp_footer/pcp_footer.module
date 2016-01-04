@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function pcp_footer_block_info() {
+  $blocks = array();
+  $blocks['pcp_footer'] = array(
+    'info' => t('PCP Footer block'),
+	'cache' => DRUPAL_CACHE_GLOBAL,
+	'status' => 1,
+	'region' => 'footer',
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function pcp_footer_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'pcp_footer':
+      $block['subject'] = NULL;
+      $block['content'] = _get_footer();
+      break;
+  }
+  return $block;
+}
+
+function _get_footer() {
+	
+	$parallaxPath = url(path_to_theme() . '/images/parallax-footer-small.jpg' );
+	$twitterSvg = url(path_to_theme() . '/images/twitter-icon.svg' );
+	$twitterImg = url(path_to_theme() . '/images/twitter-icon.png' );
+	$storifySvg = url(path_to_theme() . '/images/storify-icon.svg' );
+	$storifyImg = url(path_to_theme() . '/images/storify-icon.png' );
+	$mailSvg = url(path_to_theme() . '/images/envelope-icon.svg' );
+	$mailImg = url(path_to_theme() . '/images/envelope-icon.png' );
+	
+	return '<div class="parallax-container" '
+	. 'data-image-src="'
+		. $parallaxPath
+		. '" data-bleed="10" data-position="top" data-parallax="scroll" ></div>'
+	. '<div class="section">'
+		. '<div class="row">'
+			. '<div class="small-12 column">'
+				. '<h3>President\'s Cancer Panel</h3>'
+				. '<div>9000 Rockville Pike<br />
+				   Building 31, B2B37, MSC 2590 <br />
+				   Bethesda, MD 20892<br />
+				   (301) 451-9399<br />
+				   </div>'
+				. '<div class="connect-icons">'
+					. '<a href="https://twitter.com/prescancerpanel">'
+						. '<svg class="connect-icon" height="48" width="48">'
+							. '<image xlink:href="'. $twitterSvg . '"
+							   alt="President\'s Cancer Panel Twitter" 
+							   src="' . $twitterImg . '"
+							   height="48" width="48">'
+							. '</image>'
+						. '</svg>'
+					. '</a>'
+					. '<a href="https://storify.com/PresCancerPanel">'
+						. '<svg class="connect-icon" height="48" width="48">'
+							. '<image xlink:href="'. $storifySvg . '"
+							   alt="President\'s Cancer Panel Storify" 
+							   src="' . $storifyImg . '"
+							   height="48" width="48">'
+							. '</image>'
+						. '</svg>'
+					. '</a>'
+					. '<a href="mailto:PresCancerPanel@nih.gov">'
+						. '<svg class="connect-icon" height="48" width="48">'
+							. '<image xlink:href="'. $mailSvg . '"
+							   alt="President\'s Cancer Panel email" 
+							   src="' . $mailImg . '"
+							   height="48" width="48">'
+							. '</image>'
+						. '</svg>'
+					. '</a>'
+				. '</div>'
+			. '</div>'
+		. '</div>'
+		. '<div class="footer-endcap"></div>'
+		. '</div>';
+}

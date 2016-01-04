@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function pcp_social_media_block_info() {
+  $blocks = array();
+  $blocks['twitter_timeline_widget'] = array(
+    'info' => t('Twitter: Timeline Widget'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function pcp_social_media_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'twitter_timeline_widget':
+      $block['subject'] = '<none>';
+      $block['content'] = _get_twitter_timeline();
+      break;
+  }
+  return $block;
+}
+
+function _get_twitter_timeline() {
+  return '<div class="medium-12 columns"><div class="featured-card matchheight"><a class="twitter-timeline" data-dnt="true" href="https://twitter.com/PresCancerPanel" data-widget-id="639578289741369344" data-chrome="nofooter noscrollbar" data-aria-polite="assertive" data-screen-name="PresCancerPanel">Tweets by @PresCancerPanel</a></div></div>
+<script>
+    ! function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+            p = /^http:/.test(d.location) ? "http" : "https";
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = p + "://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+</script>';
+}

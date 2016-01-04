@@ -1,0 +1,28 @@
+diff --git a/workbench.pages.inc b/workbench.pages.inc
+index c6e4694..b141280 100644
+--- a/workbench.pages.inc
++++ b/workbench.pages.inc
+@@ -60,7 +60,7 @@ function workbench_content() {
+       // Build contextual links.
+       if (module_exists('contextual')) {
+         $output[$key] += contextual_element_info();
+-        views_add_contextual_links($output[$key]['contextual_links'], 'block', $view, $display_id);
++        views_add_contextual_links($output[$key]['#contextual_links'], 'block', $view, $display_id);
+       }
+ 
+       if ($view->access($display_id)) {
+diff --git a/workbench.theme.inc b/workbench.theme.inc
+index aadc521..de084b8 100644
+--- a/workbench.theme.inc
++++ b/workbench.theme.inc
+@@ -20,8 +20,8 @@ function theme_workbench_element($variables) {
+   }
+ 
+   $contextual = '';
+-  if (!empty($element['contextual_links'])) {
+-    $contextual = drupal_render($element['contextual_links']);
++  if (!empty($element['#contextual_links'])) {
++    $contextual = drupal_render($element['#contextual_links']);
+     $element['#attributes']['class'][] = 'contextual-links-region';
+   }
+ 

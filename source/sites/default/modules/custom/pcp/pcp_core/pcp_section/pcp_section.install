@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * Perform setup tasks when the module is installed.
+ * @see hook_install()
+ * 
+ * @link https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_install/7
+ */
+function pcp_section_install() {
+    // Comment configuration
+    /*variable_set('comment_mynci_general', COMMENT_NODE_CLOSED); // Default comment setting for new content
+    variable_set('comment_default_mode_mynci_general', COMMENT_MODE_THREADED); // Show comment replies in a threaded list
+    variable_set('comment_default_per_page_mynci_general', 10); // Comments per page
+    variable_set('comment_subject_field_mynci_general', 1); // Allow comment title
+    variable_set('comment_form_location_mynci_general', COMMENT_FORM_BELOW); // Show reply form on the same page as comments
+    variable_set('comment_preview_mynci_general', DRUPAL_DISABLED); // Preview comment*/
+}
+
+/**
+ * Remove any information that the module sets.
+ * @see hook_uninstall()
+ * 
+ * @link https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_uninstall/7
+ */
+function pcp_section_uninstall() {
+    
+}
+
+/**
+ * Perform necessary actions after module is enabled.
+ * @see hook_enable()
+ * 
+ * @link http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_enable/7
+ */
+function pcp_section_enable() {
+    // Pathauto Configuration
+    /*variable_set(
+            'pathauto_node_pcp_section_pattern', 'topics/[node:title]'
+    );*/
+    // Create/update fields and instances
+    //_pcp_section_fields();
+}
+
+/**
+ * Perform necessary actions after module is disabled.
+ * @see hook_disable()
+ * @link http://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_disable/7
+ */
+function pcp_section_disable() {
+    
+}
+
+/**
+ * Internal function to determine the content type's fieldset.
+ * @see _pcp_core_fields()
+ */
+function _pcp_section_fields() {
+    // Include fields.inc so we can use the common fieldsets
+    module_load_include('inc', 'pcp_core', 'fields');
+    
+    // Define local fields
+    $localFieldset = array(
+        'field_contextual_intro_text' => array(
+            'field_name' => 'field_contextual_intro_text',
+            'type' => 'text_long',
+            'cardinality' => 1,
+            'default_widget' => 'text_textarea',
+            'required' => FALSE,
+            'label' => t('Contextual Intro Text'),
+            'description' => t('Intro text for a section, displayed above any sub-sections.'),
+            'default_formatter' => 'text_default',
+            'settings' => array(
+                'max_length' => 1000,
+                'rows' => '3', // @todo Rows won't set??
+                'text_processing' => 0,
+            ),
+            'widget' => array(// @todo Some kind of countdown?
+                'type' => 'text_textarea',
+                'settings' => array(
+                    'rows' => '3',
+                )
+            ),
+            'display' => array(
+                'default' => array(
+                    'label' => 'hidden',
+                ),
+            ),
+        ),
+    );
+    
+    //$content_fields = _pcp_fieldset_content();
+    //$content_fields['field_body']['label'] = t('General Body Text');
+
+    // Add all of the fieldsets
+    /*$fields = array_merge(
+            $content_fields, // Fieldset: Content
+            _pcp_fieldset_metadata() // Fieldset: Metadata
+    );*/
+
+    // Create/Update local fields
+    _pcp_update_fields($localFieldset);
+    
+    // Create/Update instances for every field
+    _pcp_update_instances($localFieldset, 'pcp_section');
+
+    // also create the field groups
+    //$groups = _pcp_core_field_groups('pcp_section');
+
+    // no changes needed to the default groups for the general content type
+    // otherwise, the returned groups can be altered here to changes labels,
+    // weights, and contained fields (see the above function for hints as to
+    // the field group's structure
+    //_pcp_core_save_field_groups($groups);
+}

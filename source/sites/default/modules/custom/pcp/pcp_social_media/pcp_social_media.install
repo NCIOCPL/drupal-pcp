@@ -1,0 +1,17 @@
+<?php
+
+/*
+ * Implements hook_install
+ */
+
+function pcp_social_media_install() {
+  
+}
+
+/*
+ * Implements hook_enable
+ */
+
+function pcp_social_media_enable() {
+  
+}

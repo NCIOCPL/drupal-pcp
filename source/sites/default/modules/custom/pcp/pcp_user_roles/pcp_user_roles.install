@@ -1,0 +1,17 @@
+<?php
+
+function pcp_user_roles_enable() {
+   
+}
+
+function pcp_user_roles_install() {
+  
+}
+
+function pcp_user_roles_disable() {
+    
+}
+
+function pcp_user_roles_uninstall() {
+
+}

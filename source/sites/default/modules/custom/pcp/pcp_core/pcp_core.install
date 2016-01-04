@@ -1,0 +1,481 @@
+<?php
+
+function pcp_core_enable() {
+    // Pathauto Configuration
+    // disable imitial pattern to avoid overwriting paths
+    variable_set(
+            'pathauto_node_pattern', ''
+    );
+    
+    // leaving following example calls for when fields and vocabularies are
+    // added to PCP
+
+    /** SETUP VOCABULARIES * */
+    //_pcp_core_vocabularies();
+
+    /** SETUP FIELDS * */
+    //_pcp_update_fields(_pcp_core_fields());
+}
+
+function pcp_core_install() {
+    // leaving following example calls for when fields and vocabularies are
+    // added to PCP
+
+    /** SETUP VOCABULARIES * */
+    //_pcp_core_vocabularies();
+
+    /** SETUP FIELDS * */
+    //_pcp_update_fields(_pcp_core_fields());
+}
+
+function pcp_core_disable() {
+    
+}
+
+function pcp_core_uninstall() {
+
+}
+
+// example of vocabulary creation, left for later development
+function _pcp_core_vocabularies() {
+    $vocabularies = array(
+        array(
+            'name' => 'Topics',
+            'machine_name' => 'pcp_topics',
+            'description' => 'A fixed taxonomy that defines the hierarchy and content of the NCI 
+                Intranet. Please use the Ad-Hoc "Tags" for a more descriptive terms.',
+            'hierarchy' => '0',
+        ),
+        array(
+            'name' => 'Tags',
+            'machine_name' => 'pcp_tags',
+            'descriptions' => 'Ad-Hoc Tags',
+            'hierarchy' => '0',
+        ),
+        array(
+            'name' => 'Organizations',
+            'machine_name' => 'pcp_organizations',
+            'description' => 'The Organizations within NCI.',
+            'hierarchy' => '0',
+        ),
+        array(
+            'name' => 'Campus',
+            'machine_name' => 'pcp_campus',
+            'description' => 'Ad-Hoc Campus',
+            'hierarchy' => '0',
+        ),
+    );
+    $tf = _pcp_update_vocabularies($vocabularies);
+}
+
+// left as an example for future development (taken from pcp_core)
+function _pcp_core_fields() {
+    module_load_include('inc', 'pcp_core', 'fields');
+    return array_merge(
+                    _pcp_fieldset_content(), // Fieldset: Content
+                    _pcp_fieldset_metadata(), // Fieldset: Metadata
+                    _pcp_fieldset_author(), // Fieldset: Author
+                    _pcp_fieldset_file(), // Fieldset: File
+                    _pcp_fieldset_formpolicy(), // Fieldset: FormPolicy
+                    _pcp_fieldset_link(), // Fieldset: Link
+                    _pcp_fieldset_socialmedia(), // Fieldset: Social Media
+                    _pcp_field_collection_image(), // Interior fieldset for image
+                    _pcp_field_collection_more_info(), // Interior fieldset for For More Information
+                    _pcp_fieldset_eventdatetime(), // Fieldset: event date and time
+                    _pcp_fieldset_campus_location() // Fieldset: Campus
+    );
+}
+
+/**
+ * Helper function to remove a set of fields from your fieldset.
+ * 
+ * @param type $fieldset The collection of fields to be modified prior to instance
+ *      installation.
+ * @param type $fieldNames List of field names that should be removed from the 
+ *      the fieldset.
+ * @return type Returns the modified fieldset with all fields removed that had
+ *      been specified.
+ */
+function _pcp_remove_from_fieldset(&$fieldset, $fieldNames) {
+    foreach ($fieldset as $index => $field) {
+        if (in_array($field['field_name'], $fieldNames)) {
+            unset($fieldset[$index]);
+        }
+    }
+    //return $fieldset;
+}
+
+function _pcp_update_vocabularies($vocabularies) {
+    //ToDo:  Make this more like adding the tax content type
+    foreach ($vocabularies as $vocabulary) {
+        $oldVocabulary = taxonomy_vocabulary_machine_name_load($vocabulary['machine_name']);
+        if ($oldVocabulary) {
+            drupal_set_message('The vocabulary "' . $vocabulary['name'] . '" has already been installed.', 'status');
+        } else {
+            // convert vocab array to proper object, using the keys as fields
+            $voc_obj = new stdClass();
+            foreach ($vocabulary as $field => $value) {
+                $voc_obj->$field = $value;
+            }
+
+            $status = taxonomy_vocabulary_save($voc_obj);
+            if ($status == SAVED_NEW)
+                drupal_set_message('The vocabulary "' . $vocabulary['name'] . '" has been added.', 'status');
+        }
+    }
+    return true;
+}
+
+/**
+ * Sends a signal to update the array of fields given.
+ * 
+ * @param array $fields Fields to be updated.
+ */
+function _pcp_update_fields($fields) {
+    // Create arrays to track how well the fields were formed
+    $newFields = array();
+    $updatedFields = array();
+    $badFields = array();
+
+    // For every field, try and create it or update it in the system
+    foreach ($fields as $field) {
+        // Fields must have a name and type
+        if (!array_key_exists('field_name', $field)) {
+            drupal_set_message('Field does not have a field_name. Aborting creation of this particular field.', 'error');
+            watchdog_exception('error', 'Field does not have field_name defined.');
+            continue;
+        } elseif (!array_key_exists('type', $field)) {
+            drupal_set_message('Field "' . $field['field_name'] . '" does not have a type. Aborting creation of this particular field.', 'error');
+            watchdog_exception('error', 'Field "' . $field['field_name'] . '" does not have a type defined.');
+            continue;
+        }
+
+        // Try to update the field if it already exists or try to create it
+        try {
+            // Setup the field
+            $field_info = _pcp_field_info($field);
+
+            // If the field exists, update it; Log it
+            if (field_read_field($field_info['field_name'])) {
+                field_update_field($field_info);
+                $updatedFields[] = $field_info['field_name'];
+            }
+            // If the field doesn't exist, update it; Log it
+            else {
+                field_create_field($field_info);
+                $newFields[] = $field_info['field_name'];
+            }
+        }
+        // Log any errors to watchdog and our list of malformed fields
+        catch (Exception $e) {
+            $badFields[] = $field['field_name'];
+            watchdog_exception('error', $e);
+        }
+    }
+
+    // Output any potential errors
+    $message = '';
+    if (count($newFields) > 0)
+        $message .= 'Fields created: ' . implode(', ', $newFields);
+    if (count($newFields) > 0 && count($updatedFields) > 0)
+        $message .= '<br>';
+    if (count($updatedFields) > 0)
+        $message .= 'Fields updated: ' . implode(', ', $updatedFields);
+    drupal_set_message($message, 'status');
+    if (count($badFields) > 0)
+        drupal_set_message('Fields with errors: ' . implode(', ', $badFields), 'error');
+}
+
+/**
+ * Updates the given instances.
+ * 
+ * @param type $fields Fields that are being turned into instances
+ * @param type $bundle The content type (bundle) for the instance
+ * @param type $entity_type Optional; Assumes node, otherwise an entity type 
+ *      should be specified e.g. taxonomy_term
+ */
+function _pcp_update_instances($fields, $bundle, $entity_type = 'node') {
+    // Create arrays to track how well the instances were formed
+    $newInstances = array();
+    $updatedInstances = array();
+    $badInstances = array();
+
+    // For every instance, try and create it or update it in the system
+    if(!is_array($fields)) {
+        drupal_set_message("Failed to update instances of '$bundle': non-array fields value '$fields' found." , 'error');
+        return;
+    }
+    foreach ($fields as $field) {
+        // An instance must be created from a field
+        if (!array_key_exists('field_name', $field)) {
+            drupal_set_message('Field does not have a field_name. Aborting creation of this particular instance.', 'error');
+            watchdog_exception('error', 'Field does not have field_name defined.');
+            continue;
+        }
+        // Try update the instance if it already exists OR try to create it
+        try {
+            // Set the type to the field so we can check it
+            $field['entity_type'] = $entity_type;
+            // Setup the instance
+            $instance = _pcp_field_instance_info($field, $bundle);
+
+            // If the instance exists, update it; Log it
+            if (field_read_instance($entity_type, $instance['field_name'], $bundle)) {
+                field_update_instance($instance);
+                $updatedInstances[] = $instance['field_name'];
+            }
+            // If the instance doesn't exist, create it; Log it
+            else {
+                field_create_instance($instance);
+                $newInstances[] = $instance['field_name'];
+            }
+        }
+        // Log any errors to watchdog and our list of malformed instances
+        catch (Exception $e) {
+            $badInstances[] = $field['field_name'];
+            watchdog_exception('error', $e);
+        }
+    }
+
+    // Output any potential errors
+    $message = '';
+    if (count($newInstances) > 0)
+        $message .= 'Instances on "' . $bundle . '" created: ' . implode(', ', $newInstances);
+    if (count($newInstances) > 0 && count($updatedInstances) > 0)
+        $message .= '<br>';
+    if (count($updatedInstances) > 0)
+        $message .= 'Instances on "' . $bundle . '" updated: ' . implode(', ', $updatedInstances);
+    drupal_set_message($message, 'status');
+    if (count($badInstances) > 0)
+        drupal_set_message('Instances on "' . $bundle . '" with errors: ' . implode(', ', $badInstances), 'error');
+}
+
+/**
+ * Constructs a field group object using the given arguments.  Also checks for 
+ * the existence of a matching fieldset, and includes the already-present data
+ * in the returned object while updating the fields based on the arguments.
+ * 
+ * @param string $name      The machine name of the field group.
+ * @param string $label     The displyed label of the field group.
+ * @param string $bundle    The bundle/node type to configure.
+ * @param array  $fields    The fields to ce contained by the group.
+ * @param int    $weight    The weight of the field group.
+ * @param bool   $collapsed The collapsed/open state of the group, use TRUE for
+ *                          collapsed.
+ * @return object           The configured field group, perhaps containing
+ *                          information loaded from the existing group.
+ */
+function _pcp_core_build_field_group($name, $label, $bundle, $fields, $weight, 
+    $collapsed) {
+
+    // create an array of the group's settings based on the given arguments
+    $group_array = array(
+          'identifier' => "$name|node|$bundle|form",
+          'group_name' => $name,
+          'entity_type' => 'node',
+          'bundle' => $bundle,
+          'mode' => 'form',
+          'label' => $label,
+          'weight' => $weight,
+          'children' => $fields,
+          'format_type' => 'fieldset',
+          'format_settings' => array(
+            'label' => $label,
+            'instance_settings' => array(
+              'required_fields' => $collapsed ? 0 : 1,
+              'classes' => 'node-resort',
+              'description' => '',
+            ),
+            'formatter' => $collapsed ? 'collapsed' : 'collapsible',
+          ),
+    );
+
+    // check for an already-present matching group
+    $existing_group = field_group_load_field_group($name, 'node', $bundle, 'form');
+    
+    $group = NULL;
+    // update the existing group with the new settings...
+    if($existing_group) {        
+        foreach($group_array as $key => $value) {
+            $existing_group->$key = $value;
+        }
+        
+        $group = $existing_group;
+    }
+    // or convert the settings to an object.
+    else {
+        $group = (object) $group_array;
+    }
+    
+    return $group;
+}
+
+/**
+ * Generates and returns field group objects for the given bundle/node type,
+ * and selecting only the fields passed as an argument.  The returned objects
+ * should be saved after any potential modification.
+ * 
+ * @param string $bundle The name of the bundle or node type, used to generate
+ *                       the field group definitions.
+ * @return array         An array of field group definition objects, indexed
+ *                       by group name, and possibly containing loaded data from
+ *                       any existing groups.
+ */
+function _pcp_core_field_groups($bundle) {
+    // Get the display name for the Content Type
+    $type_name = node_type_get_name($bundle);
+    
+    $groups = array();
+    
+    // build the details default group
+    $details = array(
+      'title',
+      'field_form_or_policy_number',
+      'field_ompc_approved',
+      'field_governing_body',
+      'field_event_date',
+      'field_body',
+      'field_description',
+      'field_link',
+      'field_file',
+      'field_image_collection',
+      'field_nci_organization',
+      'field_contact',
+      'field_author',
+    );
+    
+    $groups['group_details'] = _pcp_core_build_field_group('group_details', 
+        $type_name . ' Details', $bundle, $details, 1, FALSE);
+
+    // build the related content default group
+    $related_content = array(
+      'field_for_more_info'
+    );
+    $groups['group_related_content'] = _pcp_core_build_field_group(
+        'group_related_content', 'Related Content', $bundle, $related_content, 
+        2, TRUE);
+
+    // build the metadata default group
+    $metadata = array(
+      'field_topics',
+      'field_tags',
+      'field_date_posted',
+      'field_date_updated',
+      'field_date_reviewed'
+    );
+    $groups['group_metadata'] = _pcp_core_build_field_group('group_metadata', 
+        $type_name . ' Metadata', $bundle, $metadata, 20, FALSE);
+    
+    return $groups;
+}
+
+/**
+ * Saves an array of field group definitions, wrapping the field_group module's
+ * method.
+ * 
+ * @param array $groups An array of field group definitions.
+ */
+function _pcp_core_save_field_groups($groups) {
+    foreach($groups as $group) {
+        field_group_group_save($group);
+        
+        // check each child and set the weight
+        $type = $group->bundle;
+        $weight = 0;
+        foreach($group->children as $child) {
+            // attempt to load the field to set the weight
+            $instance = field_info_instance('node', $child, $type);
+            if ($instance) {
+                // update weight and save instance
+                $instance['widget']['weight'] = $weight;
+                field_update_instance($instance);
+            } else {
+                // attempt to load the field group
+                $child_group = field_group_load_field_group($child, 'node', $type, 'form');
+                if ($child_group) {
+                    // set the new weight and save groups
+                    $child_group->weight = $weight;
+                    field_group_group_save($child_group);
+                }
+            }
+
+            $weight++;
+        }
+    }
+}
+
+/**
+ * Separates our field definition into one that Drupal would like to read for a
+ * field. (It removes all of the instance-specific properties).
+ * 
+ * @param type $field A keyed array of field values from our field/instance
+ *      definition and combo
+ * @return type A Drupal understanding of the field
+ */
+function _pcp_field_info($field) {
+    // Setup our new field
+    $field_info = array();
+
+    // Add the required field properties
+    $field_info['field_name'] = $field['field_name'];
+    $field_info['type'] = $field['type'];
+
+    // Add the optional field properties if the passed in field has them defined
+    $optionalProperties = array('cardinality', 'label', 'description', 'settings',
+        'instance_settings', 'default_widget', 'default_formatter', 'locked',
+        'no_ui', 'required');
+    foreach ($optionalProperties as $prop) {
+        if (array_key_exists($prop, $field)) {
+            $field_info[$prop] = $field[$prop];
+        }
+    }
+
+    // Return a field array with only the FIELD properties that Drupal cares about
+    return $field_info;
+}
+
+/**
+ * Separates our instance definition into one that Drupal would like to read for 
+ * a field. (It removes all of the field-specific properties).
+ * 
+ * @param type $field
+ * @param type $bundle
+ * @return type 
+ */
+function _pcp_field_instance_info($field = array(), $bundle = FALSE) {
+    if (empty($field) || !$bundle) {
+        return;
+    }
+    $instance_info = array();
+    //required instance fields
+    $instance_info['field_name'] = $field['field_name'];
+    $instance_info['entity_type'] = $field['entity_type'];
+    $instance_info['bundle'] = $bundle;
+
+    //optional instance fields
+    if (array_key_exists('label', $field))
+        $instance_info['label'] = $field['label'];
+
+    if (array_key_exists('description', $field))
+        $instance_info['description'] = $field['description'];
+
+    if (array_key_exists('required', $field))
+        $instance_info['required'] = $field['required'];
+
+    if (array_key_exists('default_value', $field))
+        $instance_info['default_value'] = $field['default_value'];
+
+    if (array_key_exists('default_value_function', $field))
+        $instance_info['default_value_function'] = $field['default_value_function'];
+
+    if (array_key_exists('settings', $field))
+        $instance_info['settings'] = $field['settings'];
+
+    if (array_key_exists('widget', $field))
+        $instance_info['widget'] = $field['widget'];
+
+    if (array_key_exists('display', $field))
+        $instance_info['display'] = $field['display'];
+
+    return $instance_info;
+}

@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * Alter the registry of modules implementing a hook.
+ * @see hook_module_implements_alter(&$implementations, $hook)
+ * 
+ * @link https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_module_implements_alter/7
+ * 
+ * Tutorial: @link http://www.rahulsingla.com/blog/2011/06/drupal-7-controlling-changing-order-of-execution-of-particular-hooks-for-modules
+ * 
+ * @param array $implementations An array keyed by the module's name. The value
+ *      of each item corresponds to a $group, which is usually FALSE, unless the
+ *      implementation is in a file named $module.$group.inc.
+ * @param string $hook The name of the module hook being implemented.
+ */
+function pcp_core_module_implements_alter(&$implementations, $hook) {
+    // We want to make sure the pathauto module gets called before pcp_core 
+    // does because otherwise the URL path settings don't exist yet.
+    switch ($hook) {
+        case 'form_alter':
+            $pathauto = array_key_exists('pathauto', $implementations) ? $implementations['pathauto'] : NULL;
+            $pcp_core = array_key_exists('pcp_core', $implementations) ? $implementations['pcp_core'] : NULL;
+            if (isset($pathauto) && isset($pcp_core)) {
+                unset($implementations['pcp_core']);
+                unset($implementations['pathauto']);
+                $implementations['pathauto'] = $pathauto;
+                $implementations['pcp_core'] = $pcp_core;
+            }
+            break;
+    }
+}
+
+/**
+ * @see hook_form_node_form_alter(&$form, $form_state);
+ * 
+ * @param type $form
+ * @param type $form_state
+ */
+function pcp_core_form_node_form_alter(&$form, &$form_state) {
+	// hide access to author and path settings, and promote/sticky checkboxes
+	$form['author']['#access'] = false;
+	$form['path']['#access'] = false;
+	
+	$form['options']['promote']['#access'] = false;
+	$form['options']['sticky']['#access'] = false;
+
+    // If possible, make sure the Generate automatic URL alias is always checked
+    if (array_key_exists('path', $form)) {
+        if (array_key_exists('pathauto', $form['path']))
+            $form['path']['pathauto']['#default_value'] = TRUE;
+    }
+
+    // Add the page title
+    $form['page-title'] = array(
+        '#weight' => -100,
+        '#markup' => '<h1>' . drupal_get_title() . '</h1>', // Use the same thing that's set as the top of the page
+    );
+}
+
+/**
+ * Convert a string time to UTC/GMT in iCalendar format in order to
+ * workaround what appears to be failure of Microsoft Outlook to accept
+ * a standard iCal datetime that already incorporates daylight savings.
+ *
+ *  @param string $strTime     Datetime string, e.g., "20130515T133000"
+ *                              for 1:30 pm, May 15, 2013.
+ *                              Any datetime string recognized by PHP's
+ *                              strtotime() is acceptable.
+ *                              If "now", use the current datetime.
+ *  @param string $timezone    Timezone string, e.g., "America/Chicago",
+ *                              default = timezone where NCI offices in
+ *                              Maryland.
+ *
+ *  @return                    Same string, set to Greenwich Mean Time, in
+ *                              iCal format e.g., "20130515T173000Z" for
+ *                              above example datetime.
+ *
+ *  @throws Exception          If the input $strTime is not a recognized
+ *                              datetime format.
+ */
+function pcp_core_get_utc($strTime="now", $timeZone="America/New_York") {
+
+    // Set timezone for conversion UNIX time.
+    date_default_timezone_set($timeZone);
+    $unixTime = strtotime($strTime);
+
+    // Check - this should never fail.  If it does we have a bug
+    if (!$unixTime) {
+        throw new Exception(
+              "Cannot recognize \"$strTime\" as a standard datetime format." .
+              "  Please inform programming support staff.");
+    }
+
+    // Back to iCal, but using Greenwich Mean Time (UTC)
+    date_default_timezone_set("UTC");
+    $utc = date("Ymd\THis\Z", $unixTime);
+
+    return $utc;
+}
+
+function pcp_core_menu_alter(&$items) {	
+	$items['node/%node']['access callback'] = '_pcp_core_node_access';
+}
+
+function _pcp_core_node_access($op, $node, $account = NULL) {	
+	return node_access($op, $node, $account);
+}

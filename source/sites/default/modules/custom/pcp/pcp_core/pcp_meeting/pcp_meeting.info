@@ -1,0 +1,6 @@
+name = "Meeting"
+description = "Meeting Content Type"
+package = "PCP"
+core = 7.x
+
+dependencies[] = pcp_core

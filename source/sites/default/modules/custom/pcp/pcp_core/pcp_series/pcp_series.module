@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function pcp_series_theme_registry_alter(&$theme_registry) {
+	// Defined path to the current module.
+	$module_path = drupal_get_path('module', 'pcp_series');
+	// Find all .tpl.php files in this module's folder recursively.
+	$template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+	// Iterate through all found template file objects.
+	foreach ($template_file_objects as $key => $template_file_object) {
+		// If the template has not already been overridden by a theme.
+		if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+			// Alter the theme path and template elements.
+			$theme_registry[$key]['theme path'] = $module_path;
+			$theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+			$theme_registry[$key]['type'] = 'module';
+		}
+	}
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter
+ * 
+ * Hiding taxonomy term description field pcptheme_form_taxonomy_form_term_alter
+ */
+function pcp_series_form_taxonomy_form_term_alter(&$form, &$form_state) {
+	switch ($form['#bundle']) {
+		case 'series':
+			// hide non-desired fields.
+			$form['relations']['#access'] = FALSE;
+			$form['path']['#access'] = FALSE;
+
+			// re-title the name field to 'year'.
+			$form['name']['#title'] = "Year";
+			$form['name']['#description'] = "The year or years during which this series takes place.";
+
+			// re-title the description field to 'topic'.
+			$form['description']['#title'] = "Topic";
+			$form['description']['#description'] = "The topic of the meeting series describes the general theme of the related meetings.";
+			$form['description']['#required'] = TRUE;
+
+			// add validation - only one link or PDF per series link entry.
+			$form['#validate'][] = 'pcp_series_term_validate';
+			break;
+	}
+}
+
+function pcp_series_term_validate($form, &$form_state) {
+	// check each series link subfield, and require that a link and a PDF not
+	// both be set for any given subfield.	
+	foreach ($form_state['values']['field_series_links'] as $langcode => $items) {
+		foreach ($items as $index => $item) {
+			if (is_array($item) &&
+				!empty($item['field_link'][$langcode][0]['value']) &&
+				($item['field_pdf'][$langcode][0]['fid'] != 0)) {
+				form_set_error("field_series_links][$langcode][$index", t("Please only specify a link or a PDF in each Series Link subfield."));
+			}
+		}
+	}
+}

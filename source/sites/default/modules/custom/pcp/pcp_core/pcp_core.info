@@ -1,0 +1,41 @@
+name = PCP Core
+description = Core vocabularies and fields
+package = PCP
+core = 7.x
+
+files[] = fields.inc
+
+required = FALSE
+
+; contributed modules
+dependencies[] = autologout
+dependencies[] = captcha
+dependencies[] = config_perms
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = entity
+dependencies[] = imce
+dependencies[] = imce_wysiwyg
+dependencies[] = libraries
+dependencies[] = link
+dependencies[] = list
+dependencies[] = jquery_update
+dependencies[] = number
+dependencies[] = pathauto
+dependencies[] = recaptcha
+dependencies[] = role_delegation
+dependencies[] = securepages
+dependencies[] = token
+dependencies[] = views
+dependencies[] = workbench
+dependencies[] = workbench_moderation
+dependencies[] = wysiwyg
+dependencies[] = wysiwyg_filter
+  
+; nci modules
+dependencies[] = nci_SSO
+    
+; pcp modules
+dependencies[] = pcp_social_media

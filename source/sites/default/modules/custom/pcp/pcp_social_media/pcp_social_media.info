@@ -1,0 +1,6 @@
+name = PCP Social Media
+description = This module creates blocks that output twitter, etc. feeds.
+core = 7.x
+package = PCP
+version = 7.x-1.0
+timestamp = 1436374437

@@ -1,0 +1,11 @@
+name = PCP User Roles
+description = Extends default NCI user roles and permissions.
+package = PCP
+core = 7.x
+
+files[] = fields.inc
+
+required = FALSE
+  
+; nci modules
+dependencies[] = nci_user_roles
