@@ -41,7 +41,7 @@ function _get_footer() {
 	return '<div class="parallax-container" '
 	. 'data-image-src="'
 		. $parallaxPath
-		. '" data-bleed="10" data-position="top" data-parallax="scroll" ></div>'
+		. '" data-bleed="10" data-position="top" data-parallax="scroll" data-z-index=""></div>'
 	. '<div class="section">'
 		. '<div class="row">'
 			. '<div class="small-12 column">'

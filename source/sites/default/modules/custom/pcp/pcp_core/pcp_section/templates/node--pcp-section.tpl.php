@@ -82,7 +82,7 @@ if (isset($content['field_section_type']['#items'][0]['value'])) {
 ?>
 <div class="parallax-container" 
 	 data-image-src="<?php print file_create_url($field_parallax_image[0]['uri']) ?>" 
-	 data-bleed="10" data-position="top" data-parallax="scroll"></div>
+	 data-bleed="10" data-position="top" data-parallax="scroll" data-z-index=""></div>
 <article id="<?php
 if (function_exists('pathauto_cleanstring')) {
 	print pathauto_cleanstring($title);

@@ -173,7 +173,7 @@ if (cookies.indexOf('has_js') >= 0) {
                 if (target.length) {
                     $('html,body').animate({
                         scrollTop: target.offset().top - topoffset + 2
-                    }, 500);
+                    }, 0);
                     return false;
                 } //target.length
             } //click function

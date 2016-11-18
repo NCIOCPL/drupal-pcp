@@ -60,7 +60,7 @@
 			<?php if (isset($node->field_parallax_image['und'][0]['uri'])): ?>
 					<div class="parallax-container" 
 						 data-image-src="<?php print file_create_url($node->field_parallax_image['und'][0]['uri']) ?>" 
-						 data-bleed="10" data-position="top" data-parallax="scroll">
+						 data-bleed="10" data-position="top" data-parallax="scroll" data-z-index="">
 					</div>
 				<?php endif; ?>
 

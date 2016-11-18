@@ -22,6 +22,11 @@ body {
     }
 }
 
+body.html .parallax-mirror
+{ 
+    visibility: visible !important;
+} 
+
 body, .section, .subsection {
     background: $white;
 }
@@ -81,7 +86,7 @@ body, .section, .subsection {
             margin-top: $column-gutter/6;
             margin-left: auto;
             margin-right: auto;
-            
+
             // setting width to include padding and 3px border
             width: rem-calc(73) + $column-gutter*1.5 + $column-gutter/2;
 
@@ -523,11 +528,11 @@ body, .section, .subsection {
                 display: block;
                 position: relative;
                 padding: $column-gutter/3 $column-gutter/2;
-                
+
                 cursor: pointer;
 
                 &:not(.active) {
-                    
+
                     &:before {
                         content: '';
                         background-color: $sectionmedblue;
@@ -586,7 +591,7 @@ body, .section, .subsection {
                         top: 0;
                         bottom: 0;
                     }
-                    
+
                     &:after {
                         content: '\2013';
                         color: $white;
