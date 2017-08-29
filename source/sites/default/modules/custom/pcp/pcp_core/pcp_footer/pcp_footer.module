@@ -37,6 +37,8 @@ function _get_footer() {
 	$storifyImg = url(path_to_theme() . '/images/storify-icon.png' );
 	$mailSvg = url(path_to_theme() . '/images/envelope-icon.svg' );
 	$mailImg = url(path_to_theme() . '/images/envelope-icon.png' );
+
+	$sitePhone = variable_get('mynci_site_phone', '(240) 781-3430');
 	
 	return '<div class="parallax-container" '
 	. 'data-image-src="'
@@ -49,7 +51,7 @@ function _get_footer() {
 				. '<div>9000 Rockville Pike<br />
 				   Building 31, B2B37, MSC 2590 <br />
 				   Bethesda, MD 20892<br />
-				   (301) 451-9399<br />
+				   ' . $sitePhone . '<br />
 				   </div>'
 				. '<div class="connect-icons">'
 					. '<a href="https://twitter.com/prescancerpanel">'
@@ -84,4 +86,17 @@ function _get_footer() {
 		. '</div>'
 		. '<div class="footer-endcap"></div>'
 		. '</div>';
+}
+
+
+/**
+ * Implements function hook_form_FORM_ID_alter() to add a phone number to site information.
+ */
+function pcp_footer_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
+  $form['site_information']['site_phone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Phone'),
+    '#default_value' => variable_get('site_phone', '(240) 781-3430'),
+    '#description' => t("The phone number displayed for purposes of contacting site staff."),
+  );
 }
