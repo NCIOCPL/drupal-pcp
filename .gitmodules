@@ -1,0 +1,12 @@
+[submodule "sites/pcp/modules/custom/nci/nci_SSO"]
+	path = sites/pcp/modules/custom/nci/nci_SSO
+	url = https://github.com/NCIOCPL/nci_SSO
+	branch = pcp
+[submodule "sites/pcp/modules/custom/nci/nci_framework"]
+	path = sites/pcp/modules/custom/nci/nci_framework
+	url = https://github.com/NCIOCPL/nci_framework
+	branch = pcp
+[submodule "sites/pcp/modules/custom/nci/nci_user_roles"]
+	path = sites/pcp/modules/custom/nci/nci_user_roles
+	url = https://github.com/NCIOCPL/nci_user_roles
+	branch = pcp
