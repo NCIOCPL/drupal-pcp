@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * Implementation of hook_features_api().
+ */
+function fe_variable_features_api() {
+  return array(
+    'fe_variable_core' => array(
+      'name' => t('Core variables'),
+      'default_hook' => 'variable_core_default_values',
+      'default_file' => FEATURES_DEFAULTS_INCLUDED,
+      'feature_source' => TRUE
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_features_export_options().
+ */
+function fe_variable_core_features_export_options() {
+  $variables_list = variable_initialize();
+
+  if(!is_array($variables_list)) {
+      return array();
+  }
+
+  ksort($variables_list);
+  $names = array_keys($variables_list);
+  return array_combine($names, $names);
+}
+
+/**
+ * Implementation of hook_features_export().
+ */
+function fe_variable_core_features_export($data, &$export, $module_name = '') {
+  $export['dependencies']['fe_variable'] = 'fe_variable';
+
+  foreach ($data as $name) {
+    $export['features']['fe_variable_core'][$name] = $name;
+  }
+
+  $pipe = array();
+  return $pipe;
+}
+
+/**
+ * Implementation of hook_features_export_render().
+ */
+function fe_variable_core_features_export_render($module, $data, $export = NULL) {
+  $code = array();
+  $code[] = '  $variables_core = array();';
+  $code[] = '';
+
+  $variables_list = variable_initialize();
+
+  foreach ($data as $name) {
+    if(array_key_exists($name, $variables_list)) {
+      $variable_name = features_var_export($name);
+      $val = array('object' => false, 'value' => $variables_list[$name]);
+
+      if(is_object($variables_list[$name])) {
+          $val['object'] = true;
+      }
+
+      $variable_value = features_var_export($val);
+      $code[] = "  \$variables_core[{$variable_name}] = {$variable_value};";
+    }
+  }
+
+  $code[] = '  return $variables_core;';
+  $code = implode("\n", $code);
+  return array('variable_core_default_values' => $code);
+}
+
+/**
+ * Implementation of hook_features_revert().
+ */
+function fe_variable_core_features_revert($module) {
+  return fe_variable_core_features_rebuild($module);
+}
+
+/**
+ * Implementation of hook_features_rebuild().
+ */
+function fe_variable_core_features_rebuild($module) {
+  if ($defaults = features_get_default('fe_variable_core', $module)) {
+    foreach ($defaults as $variable_name => $variable_value) {
+      // Support for old-style fe_variable features
+      if (is_array($variable_value) && array_keys($variable_value) == array('object', 'value')) {
+        if ($variable_value['object']) {
+          $variable_value = (object) $variable_value['value'];
+        }
+        else {
+          $variable_value = $variable_value['value'];
+        }
+      }
+      db_merge('variable')
+        ->key(array('name' => $variable_name))
+        ->fields(array('value' => serialize($variable_value)))
+        ->execute();
+    }
+
+    cache_clear_all('variables', 'cache_bootstrap');
+  }
+}

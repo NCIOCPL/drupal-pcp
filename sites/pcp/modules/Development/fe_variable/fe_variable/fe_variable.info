@@ -1,0 +1,6 @@
+name = "FE variable"
+description = "Variables export as features."
+package = "Features extra"
+core = "7.x"
+
+dependencies[] = features
