@@ -3,12 +3,4 @@ sites/*/settings*.php
 
 # Ignore paths that contain user-generated content.
 sites/*/files
-!sites/*/files/.htaccess
 sites/*/private
-
-# Git migration artifacts
-..bfg-report
-
-# Ignore typical symlink paths
-sites/default/**
-sites/*.dd/**
