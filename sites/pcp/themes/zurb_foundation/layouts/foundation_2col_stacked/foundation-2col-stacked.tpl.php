@@ -20,7 +20,7 @@
   <?php if ($content['top']): ?>
     <div class="row">
       <div class="medium-12 columns">
-				<?php print $content['top']; ?>
+        <?php print $content['top']; ?>
       </div>
     </div>
   <?php endif; ?>
@@ -37,7 +37,7 @@
   <?php if ($content['bottom']): ?>
     <div class="row">
       <div class="medium-12 columns">
-				<?php print $content['bottom']; ?>
+        <?php print $content['bottom']; ?>
       </div>
     </div>
   <?php endif; ?>
