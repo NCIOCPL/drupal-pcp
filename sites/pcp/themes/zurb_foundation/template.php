@@ -996,31 +996,38 @@ function _zurb_foundation_add_reveals() {
 function zurb_foundation_theme_registry_alter(&$theme_registry) {
   // Add our own preprocess function to entities so we can add default classes
   // to our custom Display Suite layouts.
-  $entity_info = entity_get_info();
-  foreach ($entity_info as $entity => $info) {
-    if (isset($entity_info[$entity]['fieldable']) && $entity_info[$entity]['fieldable']) {
 
-      // User uses user_profile for theming.
-      if ($entity == 'user') {
-        $entity = 'user_profile';
-      }
+  // It has a try/catch to generate exception cleanly in case database not available.
+  try {
+    Database::getConnection();
+    $entity_info = entity_get_info();
+    foreach ($entity_info as $entity => $info) {
+      if (isset($entity_info[$entity]['fieldable']) && $entity_info[$entity]['fieldable']) {
 
-      // Only add preprocess functions if entity exposes theme function.
-      if (isset($theme_registry[$entity])) {
-        $theme_registry[$entity]['preprocess functions'][] = 'zurb_foundation_entity_variables';
+        // User uses user_profile for theming.
+        if ($entity == 'user') {
+          $entity = 'user_profile';
+        }
+
+        // Only add preprocess functions if entity exposes theme function.
+        if (isset($theme_registry[$entity])) {
+          $theme_registry[$entity]['preprocess functions'][] = 'zurb_foundation_entity_variables';
+        }
       }
     }
-  }
 
-  // Support for File Entity.
-  if (isset($theme_registry['file_entity'])) {
-    $theme_registry['file_entity']['preprocess functions'][] = 'zurb_foundation_entity_variables';
-  }
+    // Support for File Entity.
+    if (isset($theme_registry['file_entity'])) {
+      $theme_registry['file_entity']['preprocess functions'][] = 'zurb_foundation_entity_variables';
+    }
 
-  // Support for Entity API.
-  if (isset($theme_registry['entity'])) {
-    $theme_registry['entity']['preprocess functions'][] = 'zurb_foundation_entity_variables';
-  }
+    // Support for Entity API.
+    if (isset($theme_registry['entity'])) {
+      $theme_registry['entity']['preprocess functions'][] = 'zurb_foundation_entity_variables';
+    }
+  } catch (PDOException $e) {
+    return;
+  };
 }
 
 /**

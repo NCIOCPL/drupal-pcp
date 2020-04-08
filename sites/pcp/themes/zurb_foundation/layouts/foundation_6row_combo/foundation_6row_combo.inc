@@ -17,6 +17,7 @@ function zurb_foundation_foundation_6row_combo_panels_layouts() {
       'top_third' => t('Top Third'),
       'top_fourth' => t('Top Fourth'),
       'middle_small' => t('Middle Small'),
+      'middle_medium' => t('Middle Medium'),
       'middle_large' => t('Middle Large'),
       'middle_first' => t('Middle First'),
       'middle_second' => t('Middle Second'),

@@ -21,10 +21,10 @@
   <?php if ($content['top']): ?>
     <div class="row">
       <div class="small-12 columns">
-			  <?php print $content['top']; ?>
+        <?php print $content['top']; ?>
       </div>
-		</div>
-  <?php endif ?>
+    </div>
+  <?php endif; ?>
 
   <div class="row">
     <div class="small-12 medium-4 columns">
@@ -41,8 +41,8 @@
   <?php if ($content['bottom']): ?>
     <div class="row">
       <div class="small-12 columns">
-			  <?php print $content['bottom']; ?>
+        <?php print $content['bottom']; ?>
       </div>
     </div>
-  <?php endif ?>
+  <?php endif; ?>
 <?php !empty($css_id) ? print '</div>' : ''; ?>
