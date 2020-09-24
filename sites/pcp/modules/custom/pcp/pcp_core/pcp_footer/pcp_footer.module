@@ -41,7 +41,8 @@ function _get_footer() {
   $linkedinImg = url(path_to_theme() . '/images/linkedin-icon.svg' );
 
 	$sitePhone = variable_get('mynci_site_phone', '(240) 781-3430');
-	
+  $siteMail = variable_get('site_mail', 'PresCancerPanel@nih.gov');
+
 	return '<div class="parallax-container" '
 	. 'data-image-src="'
 		. $parallaxPath
@@ -53,7 +54,7 @@ function _get_footer() {
 				. '<div>9000 Rockville Pike<br />
 				   Building 31, B2B37, MSC 2590 <br />
 				   Bethesda, MD 20892<br />
-				   ' . $sitePhone . '<br />
+				   <a href="mailto:' . $siteMail . '">'. $siteMail .'</a><br />
 				   </div>'
 				. '<div class="connect-icons">'
 					. '<a href="https://twitter.com/prescancerpanel">'
