@@ -51,7 +51,7 @@ function _get_footer() {
 		. '<div class="row">'
 			. '<div class="small-12 column">'
 				. '<h3>President\'s Cancer Panel</h3>'
-				. '<a href="mailto:' . $siteMail . '">'. $siteMail .'</a><br />
+				. '<div><a href="mailto:' . $siteMail . '">'. $siteMail .'</a><br />
 				   </div>'
 				. '<div class="connect-icons">'
 					. '<a href="https://twitter.com/prescancerpanel">'
