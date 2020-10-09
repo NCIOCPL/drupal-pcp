@@ -416,7 +416,7 @@ a#backToTopAnchor {
     margin-left: 1em;
 }
 
-h3.centeredText {
+h3.centeredText, p.centeredText {
     text-align: center;
 }
 
