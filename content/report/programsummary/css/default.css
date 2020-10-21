@@ -1035,14 +1035,26 @@ h3.no-bottom-margin {
 }
 
 #smallButtonWrapper{
-    width: 270px;
-    float: right;
-    margin-left: 1em;
+
+    //float: right;
+   // margin-left: 1em;
 }
 
 #smallButtonWrapperMobile
 {
     display:none;
+}
+
+.contentFlexWrapper {
+    display: flex;
+}
+.contentWapper {
+    flex-order: 1;
+}
+.buttonWrapper {
+    flex-order: 2;
+    width: 270px;
+    margin-left: 1em;
 }
 #homepageBigButtonWrapper
 {
@@ -1083,7 +1095,19 @@ h3.no-bottom-margin {
 {
     text-decoration: none;
 }
-
+.grayButton-standard {
+    padding-top: 26px;
+}
+.grayButton-large-padding {
+    padding-top: 15px;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+.grayButton-small-padding {
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 #grayButton1{
     padding-top: 26px;
 }
