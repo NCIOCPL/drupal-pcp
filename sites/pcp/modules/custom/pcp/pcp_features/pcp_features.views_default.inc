@@ -10,104 +10,104 @@
 function pcp_features_views_default_views() {
   $export = array();
 
-  $view = new view();
-  $view->name = 'featured_cards';
-  $view->description = 'Display a list of all nodes in queue \'Featured Cards\'';
-  $view->tag = 'nodequeue';
-  $view->base_table = 'node';
-  $view->human_name = 'Featured Cards';
-  $view->core = 0;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+    $view = new view();
+    $view->name = 'featured_cards';
+    $view->description = 'Display a list of all nodes in queue \'Featured Cards\'';
+    $view->tag = 'nodequeue';
+    $view->base_table = 'node';
+    $view->human_name = 'Featured Cards';
+    $view->core = 0;
+    $view->api_version = '3.0';
+    $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Defaults */
-  $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['title'] = 'Featured Cards';
-  $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['row_class'] = 'medium-6 columns';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  /* Relationship: Nodequeue: Queue */
-  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = TRUE;
-  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'featured_cards' => 'featured_cards',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['path'] = '[field_internal_link]';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Link */
-  $handler->display->display_options['fields']['field_internal_link']['id'] = 'field_internal_link';
-  $handler->display->display_options['fields']['field_internal_link']['table'] = 'field_data_field_internal_link';
-  $handler->display->display_options['fields']['field_internal_link']['field'] = 'field_internal_link';
-  $handler->display->display_options['fields']['field_internal_link']['label'] = '';
-  $handler->display->display_options['fields']['field_internal_link']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_internal_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_internal_link']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_internal_link']['type'] = 'link_plain';
-  /* Field: Content: Card Image */
-  $handler->display->display_options['fields']['field_card_image']['id'] = 'field_card_image';
-  $handler->display->display_options['fields']['field_card_image']['table'] = 'field_data_field_card_image';
-  $handler->display->display_options['fields']['field_card_image']['field'] = 'field_card_image';
-  $handler->display->display_options['fields']['field_card_image']['label'] = '';
-  $handler->display->display_options['fields']['field_card_image']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_card_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_card_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_card_image']['settings'] = array(
-    'image_style' => 'large',
-    'image_link' => '',
-  );
-  /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_description']['id'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['table'] = 'field_data_field_description';
-  $handler->display->display_options['fields']['field_description']['field'] = 'field_description';
-  $handler->display->display_options['fields']['field_description']['label'] = '';
-  $handler->display->display_options['fields']['field_description']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_description']['element_label_colon'] = FALSE;
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="featured-card equalheight"><a href="[field_internal_link]">
+    /* Display: Defaults */
+    $handler = $view->new_display('default', 'Defaults', 'default');
+    $handler->display->display_options['title'] = 'Featured Cards';
+    $handler->display->display_options['use_more'] = TRUE;
+    $handler->display->display_options['use_more_always'] = FALSE;
+    $handler->display->display_options['access']['type'] = 'none';
+    $handler->display->display_options['cache']['type'] = 'none';
+    $handler->display->display_options['query']['type'] = 'views_query';
+    $handler->display->display_options['exposed_form']['type'] = 'basic';
+    $handler->display->display_options['pager']['type'] = 'none';
+    $handler->display->display_options['style_plugin'] = 'default';
+    $handler->display->display_options['style_options']['row_class'] = 'medium-4 columns';
+    $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+    $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+    $handler->display->display_options['row_plugin'] = 'fields';
+    $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+    /* Relationship: Nodequeue: Queue */
+    $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+    $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+    $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+    $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
+    $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = TRUE;
+    $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+        'featured_cards' => 'featured_cards',
+    );
+    /* Field: Content: Title */
+    $handler->display->display_options['fields']['title']['id'] = 'title';
+    $handler->display->display_options['fields']['title']['table'] = 'node';
+    $handler->display->display_options['fields']['title']['field'] = 'title';
+    $handler->display->display_options['fields']['title']['label'] = '';
+    $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['title']['alter']['path'] = '[field_internal_link]';
+    $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+    /* Field: Content: Link */
+    $handler->display->display_options['fields']['field_internal_link']['id'] = 'field_internal_link';
+    $handler->display->display_options['fields']['field_internal_link']['table'] = 'field_data_field_internal_link';
+    $handler->display->display_options['fields']['field_internal_link']['field'] = 'field_internal_link';
+    $handler->display->display_options['fields']['field_internal_link']['label'] = '';
+    $handler->display->display_options['fields']['field_internal_link']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['field_internal_link']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_internal_link']['click_sort_column'] = 'url';
+    $handler->display->display_options['fields']['field_internal_link']['type'] = 'link_plain';
+    /* Field: Content: Card Image */
+    $handler->display->display_options['fields']['field_card_image']['id'] = 'field_card_image';
+    $handler->display->display_options['fields']['field_card_image']['table'] = 'field_data_field_card_image';
+    $handler->display->display_options['fields']['field_card_image']['field'] = 'field_card_image';
+    $handler->display->display_options['fields']['field_card_image']['label'] = '';
+    $handler->display->display_options['fields']['field_card_image']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['field_card_image']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_card_image']['click_sort_column'] = 'fid';
+    $handler->display->display_options['fields']['field_card_image']['settings'] = array(
+        'image_style' => 'large',
+        'image_link' => '',
+    );
+    /* Field: Content: Description */
+    $handler->display->display_options['fields']['field_description']['id'] = 'field_description';
+    $handler->display->display_options['fields']['field_description']['table'] = 'field_data_field_description';
+    $handler->display->display_options['fields']['field_description']['field'] = 'field_description';
+    $handler->display->display_options['fields']['field_description']['label'] = '';
+    $handler->display->display_options['fields']['field_description']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['field_description']['element_label_colon'] = FALSE;
+    /* Field: Global: Custom text */
+    $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+    $handler->display->display_options['fields']['nothing']['table'] = 'views';
+    $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+    $handler->display->display_options['fields']['nothing']['label'] = '';
+    $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="featured-card equalheight"><a href="[field_internal_link]">
 [field_card_image]
 <div class="card-title">[title]</div>
 <div class="card-description">[field_description]</div></a></div>';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  /* Sort criterion: Nodequeue: Position */
-  $handler->display->display_options['sorts']['position']['id'] = 'position';
-  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['position']['field'] = 'position';
-  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
-  /* Filter criterion: Content: Published or admin */
-  $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
-  $handler->display->display_options['filters']['status_extra']['table'] = 'node';
-  $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
-  $handler->display->display_options['filters']['status_extra']['group'] = 0;
-  $handler->display->display_options['filters']['status_extra']['expose']['operator'] = FALSE;
+    $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+    /* Sort criterion: Nodequeue: Position */
+    $handler->display->display_options['sorts']['position']['id'] = 'position';
+    $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+    $handler->display->display_options['sorts']['position']['field'] = 'position';
+    $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+    /* Filter criterion: Content: Published status or admin user */
+    $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
+    $handler->display->display_options['filters']['status_extra']['table'] = 'node';
+    $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
+    $handler->display->display_options['filters']['status_extra']['group'] = 0;
+    $handler->display->display_options['filters']['status_extra']['expose']['operator'] = FALSE;
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
-  $handler->display->display_options['block_description'] = 'Featured Cards';
-  $export['featured_cards'] = $view;
+    /* Display: Block */
+    $handler = $view->new_display('block', 'Block', 'block');
+    $handler->display->display_options['block_description'] = 'Featured Cards';
+    $export['featured_cards'] = $view;
 
   $view = new view();
   $view->name = 'pcp_carousel';
