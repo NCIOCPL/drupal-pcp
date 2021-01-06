@@ -41,7 +41,7 @@ function _get_footer() {
   $linkedinImg = url(path_to_theme() . '/images/linkedin-icon.svg' );
 
 	$sitePhone = variable_get('mynci_site_phone', '(240) 781-3430');
-  $siteMail = variable_get('site_mail', 'PresCancerPanel@nih.gov');
+  $siteMail = variable_get('site_mail', 'PresCancerPanel@mail.nih.gov');
 
 	return '<div class="parallax-container" '
 	. 'data-image-src="'
@@ -72,7 +72,7 @@ function _get_footer() {
 							. '</image>'
 						. '</svg>'
 					. '</a>'
-					. '<a href="mailto:PresCancerPanel@nih.gov">'
+					. '<a href="mailto:PresCancerPanel@mail.nih.gov">'
 						. '<svg class="connect-icon" height="48" width="48">'
 							. '<image xlink:href="'. $mailSvg . '"
 							   alt="President\'s Cancer Panel email" 
