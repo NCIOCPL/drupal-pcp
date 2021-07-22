@@ -1,22 +1,19 @@
 <?php
 
-
 /**
  * @file
  * All of the settings profiles handling code for Backup and Migrate.
  */
 
-backup_migrate_include('crud');
-
+require_once dirname(__FILE__) . '/crud.inc';
 
 /**
- * Implementation of hook_backup_migrate_profile_subtypes().
+ * Implements hook_backup_migrate_profile_subtypes().
  *
  * Get the built in Backup and Migrate profile types.
  */
 function backup_migrate_backup_migrate_profile_subtypes() {
-  $out = array();
-  $out += array(
+  $out = array(
     'backup' => array(
       'include' => 'profiles',
       'type_name' => t('Backup Settings Profile'),
@@ -26,13 +23,13 @@ function backup_migrate_backup_migrate_profile_subtypes() {
   return $out;
 }
 
-
 /**
  * Get all the available backup profiles.
  */
 function backup_migrate_get_profiles() {
-  backup_migrate_include('filters');
-  static $profiles = NULL;
+  require_once dirname(__FILE__) . '/filters.inc';
+
+  $profiles = &drupal_static('backup_migrate_get_profiles', NULL);
 
   // Get the list of profiles and cache them locally.
   if ($profiles === NULL) {
@@ -42,14 +39,14 @@ function backup_migrate_get_profiles() {
 }
 
 /**
- * Implementation of hook_backup_migrate_profiles_alter().
+ * Implements hook_backup_migrate_profiles_alter().
  *
  * Add default settings for any plugins which didn't exist when the profile was saved.
  */
 function backup_migrate_backup_migrate_profiles_alter(&$profiles) {
   foreach ($profiles as $id => $profile) {
     // Set the default values for filter setting which don't exist in the profile.
-    $profiles[$id]->filters = (array)@$profile->filters + (array)backup_migrate_filters_settings_default('backup');
+    $profiles[$id]->filters = (array) @$profile->filters + (array) backup_migrate_filters_settings_default('backup');
   }
 }
 
@@ -62,7 +59,7 @@ function backup_migrate_get_profile($profile_id) {
 }
 
 /**
- * Implementation of hook_backup_migrate_profiles().
+ * Implements hook_backup_migrate_profiles().
  */
 function backup_migrate_backup_migrate_profiles() {
   $out = array();
@@ -80,7 +77,7 @@ function backup_migrate_backup_migrate_profiles() {
  */
 function _backup_migrate_get_profile_form_item_options() {
   $out = array();
-  foreach ((array)backup_migrate_get_profiles() as $key => $profile) {
+  foreach ((array) backup_migrate_get_profiles() as $key => $profile) {
     $out[$key] = $profile->get('name');
   }
   return $out;
@@ -90,13 +87,15 @@ function _backup_migrate_get_profile_form_item_options() {
  * Get a form to configure the profile.
  */
 function _backup_migrate_ui_backup_settings_form($profile) {
+  require_once dirname(__FILE__) . '/destinations.inc';
+  require_once dirname(__FILE__) . '/files.inc';
+  require_once dirname(__FILE__) . '/filters.inc';
+
   drupal_add_js(array('backup_migrate' => array('checkboxLinkText' => t('View as checkboxes'))), array('type' => 'setting'));
-  drupal_add_js(drupal_get_path('module', 'backup_migrate') .'/backup_migrate.js', array('type' => 'file', 'scope' => 'footer'));
-  drupal_add_css(drupal_get_path('module', 'backup_migrate') .'/backup_migrate.css');
+  drupal_add_js(drupal_get_path('module', 'backup_migrate') . '/backup_migrate.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_css(drupal_get_path('module', 'backup_migrate') . '/backup_migrate.css');
 
-  backup_migrate_include('files', 'destinations', 'filters');
-
-  $form    = array();
+  $form = array();
 
   $form['file'] = array(
     "#type" => "fieldset",
@@ -126,14 +125,19 @@ function _backup_migrate_ui_backup_settings_form($profile) {
   }
 
   $form['file']['append_timestamp'] = array(
-    "#type" => "checkbox",
-    "#title" => t("Append a timestamp."),
+    "#type" => "radios",
+    '#options' => array(
+      0 => t('Create separate backups if `Backup file name` already exists'),
+      2 => t('Overwrite the existing backup file'),
+      1 => t('Append the timestamp'),
+    ),
+    "#title" => t("Save mode"),
     "#default_value" => $profile->append_timestamp,
   );
   $form['file']['timestamp_format_wrapper'] = array(
     '#type' => 'backup_migrate_dependent',
     '#dependencies' => array(
-      'append_timestamp' => TRUE,
+      'append_timestamp' => 1,
     ),
   );
   $form['file']['timestamp_format_wrapper']['timestamp_format'] = array(
@@ -150,12 +154,12 @@ function _backup_migrate_ui_backup_settings_form($profile) {
   if ($form['advanced']) {
     $form['advanced']['#type'] = 'fieldset';
     $form['advanced']['#title'] = t('Advanced Options');
-    $form['advanced']['#collapsed'] = true;
-    $form['advanced']['#collapsible'] = true;
+    $form['advanced']['#collapsed'] = TRUE;
+    $form['advanced']['#collapsible'] = TRUE;
   }
 
-  $form['#validate'][]  = '_backup_migrate_ui_backup_settings_form_validate';
-  $form['#submit'][]    = '_backup_migrate_ui_backup_settings_form_submit';
+  $form['#validate'][] = '_backup_migrate_ui_backup_settings_form_validate';
+  $form['#submit'][]   = '_backup_migrate_ui_backup_settings_form_submit';
 
   return $form;
 }
@@ -173,12 +177,14 @@ function _backup_migrate_ui_backup_settings_form_validate($form, &$form_state) {
 function _backup_migrate_ui_backup_settings_form_submit($form, &$form_state) {
   backup_migrate_filters_settings_form_submit('backup', $form, $form_state);
 }
-  
+
 /**
  * Get the default profile.
  */
 function _backup_migrate_profile_default_profile() {
-  backup_migrate_include('files', 'filters');
+  require_once dirname(__FILE__) . '/files.inc';
+  require_once dirname(__FILE__) . '/filters.inc';
+
   return array(
     'source_id' => 'db',
     'filename' => _backup_migrate_default_filename(),
@@ -207,17 +213,36 @@ function _backup_migrate_profile_saved_default_profile($profile_id = NULL) {
  * A profile class for crud operations.
  */
 class backup_migrate_profile extends backup_migrate_item {
-  var $db_table = "backup_migrate_profiles";
-  var $type_name = "profile";
-  var $singular = 'settings profile';
-  var $plural = 'settings profiles';
-  var $title_plural = 'Settings Profiles';
-  var $title_singular = 'Settings Profile';
+  public $db_table = "backup_migrate_profiles";
+  public $type_name = "profile";
+  public $singular = 'settings profile';
+  public $plural = 'settings profiles';
+  public $title_plural = 'Settings Profiles';
+  public $title_singular = 'Settings Profile';
+
+  /**
+   * Perform a shallow merge of the defaults and the parameters.
+   *
+   * This is needed because otherwise it will *combine* the nested arrays and
+   * make it impossible to deselect database tables from the 'nodata' setting.
+   *
+   * @param array $params
+   */
+  public function __construct(array $params = array()) {
+    $params = (array) $params;
+    $defaults = (array) $this->get_default_values();
+    foreach ($defaults as $key => $val) {
+      if (!isset($params[$key])) {
+        $params[$key] = $val;
+      }
+    }
+    $this->from_array($params);
+  }
 
   /**
    * This function is not supposed to be called. It is just here to help the po extractor out.
    */
-  function strings() {
+  public function strings() {
     // Help the pot extractor find these strings.
     t('Settings Profile');
     t('Settings Profiles');
@@ -228,22 +253,22 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the default values for standard parameters.
    */
-  function get_default_values() {
+  public function get_default_values() {
     return _backup_migrate_profile_default_profile() + array('name' => t("Untitled Profile"));
   }
 
   /**
    * Get a table of all items of this type.
-   */  
-  function get_list() {
-    drupal_add_css(drupal_get_path('module', 'backup_migrate') .'/backup_migrate.css');
+   */
+  public function get_list() {
+    drupal_add_css(drupal_get_path('module', 'backup_migrate') . '/backup_migrate.css');
     return parent::get_list();
   }
 
   /**
    * Get the columns needed to list the type.
-   */  
-  function get_list_column_info() {
+   */
+  public function get_list_column_info() {
     $out = parent::get_list_column_info();
     $out = array(
       'name'                  => array('title' => t('Name')),
@@ -256,7 +281,7 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Set the source of this setings profile. Takes either a source object or source id.
    */
-  function set_source($source) {
+  public function set_source($source) {
     if (is_object($source)) {
       $this->source = $source;
       $this->source_id = $source->get_id();
@@ -270,8 +295,9 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the source of the profile.
    */
-  function get_source() {
-    backup_migrate_include('locations');
+  public function get_source() {
+    require_once dirname(__FILE__) . '/locations.inc';
+
     if (!empty($this->source_id) && (empty($this->source) || $this->source->get_id() !== $this->source_id)) {
       $this->source = backup_migrate_get_source($this->source_id);
     }
@@ -281,7 +307,7 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the name of the source.
    */
-  function get_source_name() {
+  public function get_source_name() {
     if ($source = $this->get_source()) {
       return $source->get_name();
     }
@@ -291,22 +317,23 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the destination of the profile.
    */
-  function get_destination() {
-    $destinations = (array)$this->get_destinations();
+  public function get_destination() {
+    $destinations = (array) $this->get_destinations();
     return reset($destinations);
   }
 
   /**
    * Get the destination of the profile.
    */
-  function get_destinations() {
-    backup_migrate_include('destinations');
+  public function get_destinations() {
+    require_once dirname(__FILE__) . '/destinations.inc';
+
     if (empty($this->destinations)) {
       $this->destinations = array();
       $ids = $weights = array();
       if (!empty($this->destination_id)) {
-        foreach ((array)$this->destination_id as $destination_id) {
-          if (!in_array($destination_id, $ids) && $destination = backup_migrate_get_destination($destination_id)) {            
+        foreach ((array) $this->destination_id as $destination_id) {
+          if (!in_array($destination_id, $ids) && $destination = backup_migrate_get_destination($destination_id)) {
             $this->destinations[] = $destination;
             $weights[] = $destination->get('weight');
             $ids[] = $destination_id;
@@ -323,7 +350,7 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the name of the destination.
    */
-  function get_destination_name() {
+  public function get_destination_name() {
     $out = array();
     foreach ($this->get_destinations() as $destination) {
       $out[] = $destination->get_name();
@@ -335,9 +362,9 @@ class backup_migrate_profile extends backup_migrate_item {
   }
 
   /**
-   * Get the source and destinations specified in the given settings profile
+   * Get the source and destinations specified in the given settings profile.
    */
-  function get_all_locations() {
+  public function get_all_locations() {
     $out = array();
     $out += $this->get('destinations');
     $out[] = $this->get('source');
@@ -347,7 +374,7 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the edit form.
    */
-  function edit_form() {
+  public function edit_form() {
     $form = parent::edit_form();
     $form['name'] = array(
       "#type" => "textfield",
@@ -362,8 +389,8 @@ class backup_migrate_profile extends backup_migrate_item {
   /**
    * Get the message to send to the user when confirming the deletion of the item.
    */
-  function delete_confirm_message() {
+  public function delete_confirm_message() {
     return t('Are you sure you want to delete the profile %name? Any schedules using this profile will be disabled.', array('%name' => $this->get('name')));
   }
-}
 
+}
