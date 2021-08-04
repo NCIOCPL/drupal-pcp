@@ -180,6 +180,22 @@ if (cookies.indexOf('has_js') >= 0) {
         }); //smooth scrolling  
     }
 
+
+    function clickMeetingLeftNavItem(){
+        var hash = window.location.hash.slice(1); // get the hash, and strip out the "#"
+        if (hash) {
+            //var $meeting_left_nav_item = $('a.meeting-left-nav-item'+ '[data-section-id="' + hash + '"]');
+            var $meeting_left_nav_item = $('a.meeting-left-nav-item'+ '[data-section-aliased-title="' + hash + '"]');
+            if( $meeting_left_nav_item.length )  {
+                $meeting_left_nav_item.trigger('click');
+                //window.console&&console.log('Hash triggered.');
+                // $('a' + hash ).trigger('click');
+                // jQuery('a.meeting-left-nav-item'+ '#' + window.location.hash.slice(1)).trigger('click');
+                // jQuery('a.meeting-left-nav-item'+ '[data-section-id="' + window.location.hash.slice(1) + '"]').trigger('click');
+            }
+        }
+    }
+
     $(document).ready(function () {
         // invoke anythingslider
         $('#slider').anythingSlider({
@@ -517,6 +533,24 @@ if (cookies.indexOf('has_js') >= 0) {
                 triggerResize();
             });
         });
+
+        // call click handler for meeting left nav
+        var $meeting_left_nav_items =  $('a.meeting-left-nav-item');
+
+        if($meeting_left_nav_items.length) {
+            $meeting_left_nav_items.each(function(index){
+                var rawTitle = $(this).data('section-raw-title'),
+                  reWrittenTitle = rawTitle.trim().toLowerCase().replace(' ','-'),
+                  newHref = '#' + reWrittenTitle;
+                window.console&&console.log('reWrittenTitle',reWrittenTitle);
+                $(this).attr("data-section-aliased-title",reWrittenTitle).attr("href",newHref);
+            });
+        }
+
+
+        clickMeetingLeftNavItem();
+
+        window.addEventListener("hashchange", clickMeetingLeftNavItem, false);
     });
 
     window.onload = triggerResize;
