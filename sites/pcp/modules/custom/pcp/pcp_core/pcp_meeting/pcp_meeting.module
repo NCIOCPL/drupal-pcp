@@ -55,40 +55,70 @@ function pcp_meeting_node_view_alter(&$build) {
 		$node = $build['#node'];
 		$crumbs[] = l('Home', '<front>');
 		
-		// retrieve the first section matching the choses series status
-		$series_items = field_get_items('node', $node, 'field_series');
-		$series_status = $series_items[0]['taxonomy_term']->field_series_status['und'][0]['value'] ?
-			'current_series' : 'past_reports';
 
+		$series_items = field_get_items('node', $node, 'field_series');
+        $series_title = $node->title;
+        // dpm($node);
+		$series_status = $series_items[0]['taxonomy_term']->field_series_status['und'][0]['value'];
+        //$series_status = $series_items[0]['taxonomy_term']->field_series_status['und'][0]['value'];
+        switch($series_status) {
+            case 0:
+                $series_status_text = 'past_reports';
+                $series_status_title = 'Reports';
+                break;
+            case 1:
+                $series_status_text = 'current_series';
+                $series_status_title = 'Current Series';
+                break;
+            case 2:
+                $series_status_text = 'subsections';
+                $series_status_title = 'About';
+                break;
+            case 3:
+                $series_status_text = 'members';
+                $series_status_title = 'Members';
+                break;
+            case 4:
+                $series_status_text = 'blogs';
+                $series_status_title = 'Blogs';
+                break;
+            default:
+                $series_status_text = 'past_reports';
+                $series_status_title = 'Reports';
+        }
+       // dpm($series_items);
+        // dpm($series_status_text);
+        // retrieve the first section matching the choses series status - defunct
 		$status_query = new EntityFieldQuery();
 		$status_query->entityCondition('entity_type', 'node')
 			->entityCondition('bundle', 'pcp_section')
 			->propertyCondition('status', NODE_PUBLISHED)
 			->fieldCondition('field_order', 'value', '0', '>')
-			->fieldCondition('field_section_type', 'value', $series_status, '=')
-			->range(0, 1);
+			->fieldCondition('field_section_type', 'value', $series_status_text, '=');
 
 		$result = $status_query->execute();
-
+        //dpm($result);
 		// find the series title
 		if (isset($result['node'])) {
 			foreach ($result['node'] as $nid => $section_node) {
 				$sql = 'SELECT title FROM {node} WHERE nid = :nid';
 				$title_result = db_query($sql, array(':nid' => $nid));
 				$section_title = $title_result->fetchField();
-
 				break;
 			}
 		}
-
+		// dpm($result);
+        // dpm($section_title);
 		// convert to an anchor link and add to breadcrumbs
 		if(module_load_include('inc','pathauto','pathauto') !== FALSE) {
 			if (function_exists('pathauto_cleanstring')) {
-				$anchor = pathauto_cleanstring($section_title);
-				$crumbs[] = l($section_title, '/', array('fragment' => $anchor));
-
+				//$anchor = pathauto_cleanstring($section_title);
+				//$crumbs[] = l($section_title, '/', array('fragment' => $anchor));
+                $anchor = pathauto_cleanstring($series_status_title);
+                $crumbs[] = l($series_status_title, '/', array('fragment' => $anchor));
+                $crumbs[] = $series_title;
 				// render the current date
-				$crumbs[] = trim(strip_tags(drupal_render($build['field_date'])));
+				//$crumbs[] = trim(strip_tags(drupal_render($build['field_date'])));
 
 				drupal_set_breadcrumb($crumbs);
 			}

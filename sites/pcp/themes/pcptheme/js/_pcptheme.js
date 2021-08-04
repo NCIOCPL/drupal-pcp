@@ -540,7 +540,7 @@ if (cookies.indexOf('has_js') >= 0) {
         if($meeting_left_nav_items.length) {
             $meeting_left_nav_items.each(function(index){
                 var rawTitle = $(this).data('section-raw-title'),
-                  reWrittenTitle = rawTitle.trim().toLowerCase().replace(' ','-'),
+                  reWrittenTitle = rawTitle.trim().toLowerCase().replaceAll(' ','-'),
                   newHref = '#' + reWrittenTitle;
                 window.console&&console.log('reWrittenTitle',reWrittenTitle);
                 $(this).attr("data-section-aliased-title",reWrittenTitle).attr("href",newHref);

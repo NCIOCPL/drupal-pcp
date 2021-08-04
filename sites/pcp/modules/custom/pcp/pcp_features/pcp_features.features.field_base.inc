@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * pcp_features.features.field_base.inc
@@ -10,7 +11,7 @@
 function pcp_features_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +32,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_alt_text'
+  // Exported field_base: 'field_alt_text'.
   $field_bases['field_alt_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -52,7 +53,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_body'
+  // Exported field_base: 'field_body'.
   $field_bases['field_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -71,7 +72,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_card_image'
+  // Exported field_base: 'field_card_image'.
   $field_bases['field_card_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -93,7 +94,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_carousel_description'
+  // Exported field_base: 'field_carousel_description'.
   $field_bases['field_carousel_description'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -112,7 +113,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_carousel_image'
+  // Exported field_base: 'field_carousel_image'.
   $field_bases['field_carousel_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -134,7 +135,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_contextual_intro_text'
+  // Exported field_base: 'field_contextual_intro_text'.
   $field_bases['field_contextual_intro_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -162,14 +163,22 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_date'
+  // Exported field_base: 'field_date'.
   $field_bases['field_date'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_date',
-    'indexes' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+        1 => 'value2',
+      ),
+      'value2' => array(
+        0 => 'value2',
+      ),
+    ),
     'locked' => 0,
     'module' => 'date',
     'settings' => array(
@@ -191,7 +200,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_description'
+  // Exported field_base: 'field_description'.
   $field_bases['field_description'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -212,7 +221,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_desktop_img'
+  // Exported field_base: 'field_desktop_img'.
   $field_bases['field_desktop_img'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -234,7 +243,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_email'
+  // Exported field_base: 'field_email'.
   $field_bases['field_email'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -255,7 +264,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_file_image_alt_text'
+  // Exported field_base: 'field_file_image_alt_text'.
   $field_bases['field_file_image_alt_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -276,7 +285,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_file_image_title_text'
+  // Exported field_base: 'field_file_image_title_text'.
   $field_bases['field_file_image_title_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -297,7 +306,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_internal_link'
+  // Exported field_base: 'field_internal_link'.
   $field_bases['field_internal_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -326,7 +335,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_is_member'
+  // Exported field_base: 'field_is_member'.
   $field_bases['field_is_member'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -351,7 +360,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_link'
+  // Exported field_base: 'field_link'.
   $field_bases['field_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -366,7 +375,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'url',
   );
 
-  // Exported field_base: 'field_location'
+  // Exported field_base: 'field_location'.
   $field_bases['field_location'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -387,7 +396,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_longdesc'
+  // Exported field_base: 'field_longdesc'.
   $field_bases['field_longdesc'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -406,7 +415,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_member_staff_image'
+  // Exported field_base: 'field_member_staff_image'.
   $field_bases['field_member_staff_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -428,7 +437,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_order'
+  // Exported field_base: 'field_order'.
   $field_bases['field_order'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -443,7 +452,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_parallax_image'
+  // Exported field_base: 'field_parallax_image'.
   $field_bases['field_parallax_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -465,7 +474,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_pdf'
+  // Exported field_base: 'field_pdf'.
   $field_bases['field_pdf'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -488,7 +497,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_phone_number'
+  // Exported field_base: 'field_phone_number'.
   $field_bases['field_phone_number'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -509,7 +518,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_report_url'
+  // Exported field_base: 'field_report_url'.
   $field_bases['field_report_url'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -524,7 +533,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'url',
   );
 
-  // Exported field_base: 'field_section_type'
+  // Exported field_base: 'field_section_type'.
   $field_bases['field_section_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -544,6 +553,7 @@ function pcp_features_field_default_field_bases() {
         'members' => 'Members',
         'current_series' => 'Current Series',
         'past_reports' => 'Past Reports',
+        'blogs' => 'Blogs',
       ),
       'allowed_values_function' => '',
     ),
@@ -551,7 +561,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_sections'
+  // Exported field_base: 'field_sections'.
   $field_bases['field_sections'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -562,18 +572,22 @@ function pcp_features_field_default_field_bases() {
       'revision_id' => array(
         0 => 'revision_id',
       ),
+      'value' => array(
+        0 => 'value',
+      ),
     ),
     'locked' => 0,
     'module' => 'field_collection',
     'settings' => array(
       'hide_blank_items' => 1,
+      'hide_initial_item' => FALSE,
       'path' => '',
     ),
     'translatable' => 0,
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_series'
+  // Exported field_base: 'field_series'.
   $field_bases['field_series'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -599,7 +613,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_series_links'
+  // Exported field_base: 'field_series_links'.
   $field_bases['field_series_links'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -610,18 +624,22 @@ function pcp_features_field_default_field_bases() {
       'revision_id' => array(
         0 => 'revision_id',
       ),
+      'value' => array(
+        0 => 'value',
+      ),
     ),
     'locked' => 0,
     'module' => 'field_collection',
     'settings' => array(
       'hide_blank_items' => 1,
+      'hide_initial_item' => FALSE,
       'path' => '',
     ),
     'translatable' => 0,
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_series_status'
+  // Exported field_base: 'field_series_status'.
   $field_bases['field_series_status'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -639,6 +657,9 @@ function pcp_features_field_default_field_bases() {
       'allowed_values' => array(
         1 => 'Current Series',
         0 => 'Past Report',
+        2 => 'Subsection Content',
+        3 => 'Members',
+        4 => 'Blogs',
       ),
       'allowed_values_function' => '',
     ),
@@ -646,7 +667,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_small_img'
+  // Exported field_base: 'field_small_img'.
   $field_bases['field_small_img'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -668,7 +689,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_status'
+  // Exported field_base: 'field_status'.
   $field_bases['field_status'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -694,7 +715,7 @@ function pcp_features_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_subsection'
+  // Exported field_base: 'field_subsection'.
   $field_bases['field_subsection'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -705,18 +726,22 @@ function pcp_features_field_default_field_bases() {
       'revision_id' => array(
         0 => 'revision_id',
       ),
+      'value' => array(
+        0 => 'value',
+      ),
     ),
     'locked' => 0,
     'module' => 'field_collection',
     'settings' => array(
       'hide_blank_items' => 1,
+      'hide_initial_item' => FALSE,
       'path' => '',
     ),
     'translatable' => 0,
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_svg_imageset'
+  // Exported field_base: 'field_svg_imageset'.
   $field_bases['field_svg_imageset'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -727,18 +752,22 @@ function pcp_features_field_default_field_bases() {
       'revision_id' => array(
         0 => 'revision_id',
       ),
+      'value' => array(
+        0 => 'value',
+      ),
     ),
     'locked' => 0,
     'module' => 'field_collection',
     'settings' => array(
       'hide_blank_items' => 1,
+      'hide_initial_item' => FALSE,
       'path' => '',
     ),
     'translatable' => 0,
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_title'
+  // Exported field_base: 'field_title'.
   $field_bases['field_title'] = array(
     'active' => 1,
     'cardinality' => 1,
