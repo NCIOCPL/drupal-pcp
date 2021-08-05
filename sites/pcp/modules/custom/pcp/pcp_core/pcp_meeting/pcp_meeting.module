@@ -112,10 +112,10 @@ function pcp_meeting_node_view_alter(&$build) {
 		// convert to an anchor link and add to breadcrumbs
 		if(module_load_include('inc','pathauto','pathauto') !== FALSE) {
 			if (function_exists('pathauto_cleanstring')) {
-				//$anchor = pathauto_cleanstring($section_title);
-				//$crumbs[] = l($section_title, '/', array('fragment' => $anchor));
-                $anchor = pathauto_cleanstring($series_status_title);
-                $crumbs[] = l($series_status_title, '/', array('fragment' => $anchor));
+				$anchor = pathauto_cleanstring($section_title);
+				$crumbs[] = l($section_title, '/', array('fragment' => $anchor));
+                //$anchor = pathauto_cleanstring($series_status_title);
+               // $crumbs[] = l($series_status_title, '/', array('fragment' => $anchor));
                 $crumbs[] = $series_title;
 				// render the current date
 				//$crumbs[] = trim(strip_tags(drupal_render($build['field_date'])));
