@@ -204,181 +204,234 @@ function pcp_features_views_default_views() {
   $handler->display->display_options['block_description'] = 'Carousel (Ordered)';
   $export['pcp_carousel'] = $view;
 
-  $view = new view();
-  $view->name = 'pcp_meeting_left_nav';
-  $view->description = 'The navigation and sections of a PCP Metting page.';
-  $view->tag = 'default';
-  $view->base_table = 'node';
-  $view->human_name = 'PCP Meeting Page Elements';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+    $view = new view();
+    $view->name = 'pcp_meeting_left_nav';
+    $view->description = 'The navigation and sections of a PCP Metting page.';
+    $view->tag = 'default';
+    $view->base_table = 'node';
+    $view->human_name = 'PCP Meeting Page Elements';
+    $view->core = 7;
+    $view->api_version = '3.0';
+    $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'PCP Meeting Left Nav';
-  $handler->display->display_options['css_class'] = 'section-nav equalheight';
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['row_class'] = 'nav-item';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  /* Relationship: Content: Sections (field_sections) */
-  $handler->display->display_options['relationships']['field_sections_value']['id'] = 'field_sections_value';
-  $handler->display->display_options['relationships']['field_sections_value']['table'] = 'field_data_field_sections';
-  $handler->display->display_options['relationships']['field_sections_value']['field'] = 'field_sections_value';
-  $handler->display->display_options['relationships']['field_sections_value']['required'] = TRUE;
-  $handler->display->display_options['relationships']['field_sections_value']['delta'] = '-1';
-  /* Field: Content: Sections (field_sections:delta) */
-  $handler->display->display_options['fields']['delta']['id'] = 'delta';
-  $handler->display->display_options['fields']['delta']['table'] = 'field_data_field_sections';
-  $handler->display->display_options['fields']['delta']['field'] = 'delta';
-  $handler->display->display_options['fields']['delta']['label'] = '';
-  $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
-  /* Field: Active state */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['ui_name'] = 'Active state';
-  $handler->display->display_options['fields']['counter']['label'] = '';
-  $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['counter']['alter']['text'] = ' ';
-  $handler->display->display_options['fields']['counter']['element_type'] = '0';
-  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['counter']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['counter']['empty'] = 'active';
-  $handler->display->display_options['fields']['counter']['empty_zero'] = TRUE;
-  $handler->display->display_options['fields']['counter']['counter_start'] = '0';
-  $handler->display->display_options['fields']['counter']['reverse'] = 0;
-  /* Field: Field: Title */
-  $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
-  $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['relationship'] = 'field_sections_value';
-  $handler->display->display_options['fields']['field_title']['label'] = '';
-  $handler->display->display_options['fields']['field_title']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a class=\'[counter]\' data-section-id=\'[delta]\'>[field_title]</a>';
-  $handler->display->display_options['fields']['field_title']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_title']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_title']['type'] = 'text_plain';
-  /* Sort criterion: Content: Sections (field_sections:delta) */
-  $handler->display->display_options['sorts']['delta']['id'] = 'delta';
-  $handler->display->display_options['sorts']['delta']['table'] = 'field_data_field_sections';
-  $handler->display->display_options['sorts']['delta']['field'] = 'delta';
-  /* Contextual filter: Content: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'meeting' => 'meeting',
-  );
+    /* Display: Master */
+    $handler = $view->new_display('default', 'Master', 'default');
+    $handler->display->display_options['title'] = 'PCP Meeting Left Nav';
+    $handler->display->display_options['css_class'] = 'section-nav equalheight';
+    $handler->display->display_options['use_more_always'] = FALSE;
+    $handler->display->display_options['access']['type'] = 'perm';
+    $handler->display->display_options['cache']['type'] = 'none';
+    $handler->display->display_options['query']['type'] = 'views_query';
+    $handler->display->display_options['exposed_form']['type'] = 'basic';
+    $handler->display->display_options['pager']['type'] = 'none';
+    $handler->display->display_options['style_plugin'] = 'default';
+    $handler->display->display_options['style_options']['row_class'] = 'nav-item';
+    $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+    $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+    $handler->display->display_options['row_plugin'] = 'fields';
+    $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+    /* Relationship: Content: Sections (field_sections) */
+    $handler->display->display_options['relationships']['field_sections_value']['id'] = 'field_sections_value';
+    $handler->display->display_options['relationships']['field_sections_value']['table'] = 'field_data_field_sections';
+    $handler->display->display_options['relationships']['field_sections_value']['field'] = 'field_sections_value';
+    $handler->display->display_options['relationships']['field_sections_value']['required'] = TRUE;
+    $handler->display->display_options['relationships']['field_sections_value']['delta'] = '-1';
+    /* Field: Content: Sections (field_sections:delta) */
+    $handler->display->display_options['fields']['delta']['id'] = 'delta';
+    $handler->display->display_options['fields']['delta']['table'] = 'field_data_field_sections';
+    $handler->display->display_options['fields']['delta']['field'] = 'delta';
+    $handler->display->display_options['fields']['delta']['label'] = '';
+    $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
+    /* Field: Active state */
+    $handler->display->display_options['fields']['counter']['id'] = 'counter';
+    $handler->display->display_options['fields']['counter']['table'] = 'views';
+    $handler->display->display_options['fields']['counter']['field'] = 'counter';
+    $handler->display->display_options['fields']['counter']['ui_name'] = 'Active state';
+    $handler->display->display_options['fields']['counter']['label'] = '';
+    $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['text'] = ' ';
+    $handler->display->display_options['fields']['counter']['element_type'] = '0';
+    $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['counter']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['counter']['empty'] = 'active';
+    $handler->display->display_options['fields']['counter']['empty_zero'] = TRUE;
+    $handler->display->display_options['fields']['counter']['counter_start'] = '0';
+    $handler->display->display_options['fields']['counter']['reverse'] = 0;
+    /* Field: Field: Title */
+    $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
+    $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['relationship'] = 'field_sections_value';
+    $handler->display->display_options['fields']['field_title']['label'] = '';
+    $handler->display->display_options['fields']['field_title']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a class=\'[counter]\' data-section-id=\'[delta]\'>[field_title]</a>';
+    $handler->display->display_options['fields']['field_title']['element_type'] = '0';
+    $handler->display->display_options['fields']['field_title']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_title']['element_wrapper_type'] = '0';
+    $handler->display->display_options['fields']['field_title']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['field_title']['type'] = 'text_plain';
+    /* Sort criterion: Content: Sections (field_sections:delta) */
+    $handler->display->display_options['sorts']['delta']['id'] = 'delta';
+    $handler->display->display_options['sorts']['delta']['table'] = 'field_data_field_sections';
+    $handler->display->display_options['sorts']['delta']['field'] = 'delta';
+    /* Contextual filter: Content: Nid */
+    $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+    $handler->display->display_options['arguments']['nid']['table'] = 'node';
+    $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+    $handler->display->display_options['arguments']['nid']['default_action'] = 'not found';
+    $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+    $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+    /* Filter criterion: Content: Published status */
+    $handler->display->display_options['filters']['status']['id'] = 'status';
+    $handler->display->display_options['filters']['status']['table'] = 'node';
+    $handler->display->display_options['filters']['status']['field'] = 'status';
+    $handler->display->display_options['filters']['status']['value'] = 1;
+    $handler->display->display_options['filters']['status']['group'] = 1;
+    $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+    /* Filter criterion: Content: Type */
+    $handler->display->display_options['filters']['type']['id'] = 'type';
+    $handler->display->display_options['filters']['type']['table'] = 'node';
+    $handler->display->display_options['filters']['type']['field'] = 'type';
+    $handler->display->display_options['filters']['type']['value'] = array(
+        'meeting' => 'meeting',
+    );
 
-  /* Display: Nav */
-  $handler = $view->new_display('block', 'Nav', 'nav');
+    /* Display: Nav */
+    $handler = $view->new_display('block', 'Nav', 'nav');
+    $handler->display->display_options['defaults']['fields'] = FALSE;
+    /* Field: Field: Title */
+    $handler->display->display_options['fields']['field_title_1']['id'] = 'field_title_1';
+    $handler->display->display_options['fields']['field_title_1']['table'] = 'field_data_field_title';
+    $handler->display->display_options['fields']['field_title_1']['field'] = 'field_title';
+    $handler->display->display_options['fields']['field_title_1']['label'] = '';
+    $handler->display->display_options['fields']['field_title_1']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['field_title_1']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['field_title_1']['alter']['text'] = '[field_title_1-format]';
+    $handler->display->display_options['fields']['field_title_1']['alter']['trim_whitespace'] = TRUE;
+    $handler->display->display_options['fields']['field_title_1']['alter']['strip_tags'] = TRUE;
+    $handler->display->display_options['fields']['field_title_1']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_title_1']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['field_title_1']['type'] = 'text_plain';
+    $handler->display->display_options['fields']['field_title_1']['settings'] = array(
+        'trim_length' => '600',
+    );
+    /* Field: Content: Sections (field_sections:delta) */
+    $handler->display->display_options['fields']['delta']['id'] = 'delta';
+    $handler->display->display_options['fields']['delta']['table'] = 'field_data_field_sections';
+    $handler->display->display_options['fields']['delta']['field'] = 'delta';
+    $handler->display->display_options['fields']['delta']['label'] = '';
+    $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
+    /* Field: Active state */
+    $handler->display->display_options['fields']['counter']['id'] = 'counter';
+    $handler->display->display_options['fields']['counter']['table'] = 'views';
+    $handler->display->display_options['fields']['counter']['field'] = 'counter';
+    $handler->display->display_options['fields']['counter']['ui_name'] = 'Active state';
+    $handler->display->display_options['fields']['counter']['label'] = '';
+    $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['text'] = ' ';
+    $handler->display->display_options['fields']['counter']['element_type'] = '0';
+    $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['counter']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['counter']['empty'] = 'active';
+    $handler->display->display_options['fields']['counter']['empty_zero'] = TRUE;
+    $handler->display->display_options['fields']['counter']['counter_start'] = '0';
+    $handler->display->display_options['fields']['counter']['reverse'] = 0;
+    /* Field: Field: Title */
+    $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
+    $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['relationship'] = 'field_sections_value';
+    $handler->display->display_options['fields']['field_title']['label'] = '';
+    $handler->display->display_options['fields']['field_title']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a class=\'[counter] meeting-left-nav-item\' data-section-id=\'[delta]\' data-section-raw-title=\'[field_title]\' href=\'#[delta]\' data-section-aliased-title=\'\'>[field_title]</a>';
+    $handler->display->display_options['fields']['field_title']['element_type'] = '0';
+    $handler->display->display_options['fields']['field_title']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_title']['element_wrapper_type'] = '0';
+    $handler->display->display_options['fields']['field_title']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['field_title']['type'] = 'text_plain';
 
-  /* Display: Sections */
-  $handler = $view->new_display('block', 'Sections', 'sections');
-  $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'meeting-sections';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Sections (field_sections:delta) */
-  $handler->display->display_options['fields']['delta']['id'] = 'delta';
-  $handler->display->display_options['fields']['delta']['table'] = 'field_data_field_sections';
-  $handler->display->display_options['fields']['delta']['field'] = 'delta';
-  $handler->display->display_options['fields']['delta']['label'] = '';
-  $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
-  /* Field: Active state */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['ui_name'] = 'Active state';
-  $handler->display->display_options['fields']['counter']['label'] = '';
-  $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['counter']['alter']['text'] = ' ';
-  $handler->display->display_options['fields']['counter']['element_type'] = '0';
-  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['counter']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['counter']['empty'] = 'active';
-  $handler->display->display_options['fields']['counter']['empty_zero'] = TRUE;
-  $handler->display->display_options['fields']['counter']['counter_start'] = '0';
-  $handler->display->display_options['fields']['counter']['reverse'] = 0;
-  /* Field: Collapsed state */
-  $handler->display->display_options['fields']['counter_2']['id'] = 'counter_2';
-  $handler->display->display_options['fields']['counter_2']['table'] = 'views';
-  $handler->display->display_options['fields']['counter_2']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter_2']['ui_name'] = 'Collapsed state';
-  $handler->display->display_options['fields']['counter_2']['label'] = '';
-  $handler->display->display_options['fields']['counter_2']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['counter_2']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['counter_2']['alter']['text'] = 'collapsed';
-  $handler->display->display_options['fields']['counter_2']['element_type'] = '0';
-  $handler->display->display_options['fields']['counter_2']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['counter_2']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['counter_2']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['counter_2']['empty_zero'] = TRUE;
-  $handler->display->display_options['fields']['counter_2']['counter_start'] = '0';
-  $handler->display->display_options['fields']['counter_2']['reverse'] = 0;
-  /* Field: Field: Title */
-  $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
-  $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['relationship'] = 'field_sections_value';
-  $handler->display->display_options['fields']['field_title']['label'] = '';
-  $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a data-section-id=\'[field_sections]\'>[field_title]</a>';
-  $handler->display->display_options['fields']['field_title']['element_type'] = 'div';
-  $handler->display->display_options['fields']['field_title']['element_class'] = 'section-title small-only [counter]';
-  $handler->display->display_options['fields']['field_title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_title']['element_default_classes'] = FALSE;
-  /* Field: Field collection item: Section Body */
-  $handler->display->display_options['fields']['field_body']['id'] = 'field_body';
-  $handler->display->display_options['fields']['field_body']['table'] = 'field_data_field_body';
-  $handler->display->display_options['fields']['field_body']['field'] = 'field_body';
-  $handler->display->display_options['fields']['field_body']['relationship'] = 'field_sections_value';
-  $handler->display->display_options['fields']['field_body']['label'] = '';
-  $handler->display->display_options['fields']['field_body']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_body']['alter']['text'] = '<div class=\'section-body [counter_2]\' data-section-id=\'[delta]\'>[field_body]</div>';
-  $handler->display->display_options['fields']['field_body']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_body']['element_default_classes'] = FALSE;
-  $export['pcp_meeting_left_nav'] = $view;
+    /* Display: Sections */
+    $handler = $view->new_display('block', 'Sections', 'sections');
+    $handler->display->display_options['defaults']['css_class'] = FALSE;
+    $handler->display->display_options['css_class'] = 'meeting-sections';
+    $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+    $handler->display->display_options['style_plugin'] = 'default';
+    $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+    $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+    $handler->display->display_options['defaults']['style_options'] = FALSE;
+    $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+    $handler->display->display_options['row_plugin'] = 'fields';
+    $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+    $handler->display->display_options['defaults']['row_options'] = FALSE;
+    $handler->display->display_options['defaults']['fields'] = FALSE;
+    /* Field: Content: Sections (field_sections:delta) */
+    $handler->display->display_options['fields']['delta']['id'] = 'delta';
+    $handler->display->display_options['fields']['delta']['table'] = 'field_data_field_sections';
+    $handler->display->display_options['fields']['delta']['field'] = 'delta';
+    $handler->display->display_options['fields']['delta']['label'] = '';
+    $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
+    /* Field: Active state */
+    $handler->display->display_options['fields']['counter']['id'] = 'counter';
+    $handler->display->display_options['fields']['counter']['table'] = 'views';
+    $handler->display->display_options['fields']['counter']['field'] = 'counter';
+    $handler->display->display_options['fields']['counter']['ui_name'] = 'Active state';
+    $handler->display->display_options['fields']['counter']['label'] = '';
+    $handler->display->display_options['fields']['counter']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['counter']['alter']['text'] = ' ';
+    $handler->display->display_options['fields']['counter']['element_type'] = '0';
+    $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['counter']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['counter']['empty'] = 'active';
+    $handler->display->display_options['fields']['counter']['empty_zero'] = TRUE;
+    $handler->display->display_options['fields']['counter']['counter_start'] = '0';
+    $handler->display->display_options['fields']['counter']['reverse'] = 0;
+    /* Field: Collapsed state */
+    $handler->display->display_options['fields']['counter_2']['id'] = 'counter_2';
+    $handler->display->display_options['fields']['counter_2']['table'] = 'views';
+    $handler->display->display_options['fields']['counter_2']['field'] = 'counter';
+    $handler->display->display_options['fields']['counter_2']['ui_name'] = 'Collapsed state';
+    $handler->display->display_options['fields']['counter_2']['label'] = '';
+    $handler->display->display_options['fields']['counter_2']['exclude'] = TRUE;
+    $handler->display->display_options['fields']['counter_2']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['counter_2']['alter']['text'] = 'collapsed';
+    $handler->display->display_options['fields']['counter_2']['element_type'] = '0';
+    $handler->display->display_options['fields']['counter_2']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['counter_2']['element_default_classes'] = FALSE;
+    $handler->display->display_options['fields']['counter_2']['hide_empty'] = TRUE;
+    $handler->display->display_options['fields']['counter_2']['empty_zero'] = TRUE;
+    $handler->display->display_options['fields']['counter_2']['counter_start'] = '0';
+    $handler->display->display_options['fields']['counter_2']['reverse'] = 0;
+    /* Field: Field: Title */
+    $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
+    $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
+    $handler->display->display_options['fields']['field_title']['relationship'] = 'field_sections_value';
+    $handler->display->display_options['fields']['field_title']['label'] = '';
+    $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a data-section-id=\'[field_sections]\'>[field_title]</a>';
+    $handler->display->display_options['fields']['field_title']['element_type'] = 'div';
+    $handler->display->display_options['fields']['field_title']['element_class'] = 'section-title small-only [counter]';
+    $handler->display->display_options['fields']['field_title']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_title']['element_default_classes'] = FALSE;
+    /* Field: Field collection item: Section Body */
+    $handler->display->display_options['fields']['field_body']['id'] = 'field_body';
+    $handler->display->display_options['fields']['field_body']['table'] = 'field_data_field_body';
+    $handler->display->display_options['fields']['field_body']['field'] = 'field_body';
+    $handler->display->display_options['fields']['field_body']['relationship'] = 'field_sections_value';
+    $handler->display->display_options['fields']['field_body']['label'] = '';
+    $handler->display->display_options['fields']['field_body']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['field_body']['alter']['text'] = '<div class=\'section-body [counter_2]\' data-section-id=\'[delta]\'>[field_body]</div>';
+    $handler->display->display_options['fields']['field_body']['element_type'] = '0';
+    $handler->display->display_options['fields']['field_body']['element_label_colon'] = FALSE;
+    $handler->display->display_options['fields']['field_body']['element_default_classes'] = FALSE;
+    $export['pcp_meeting_left_nav'] = $view;
 
   $view = new view();
   $view->name = 'pcp_members';

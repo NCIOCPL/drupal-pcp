@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * pcp_features.features.inc
@@ -34,7 +35,7 @@ function pcp_features_fe_nodequeue_export_fields() {
     'name' => 'featured_cards',
     'title' => 'Featured Cards',
     'subqueue_title' => '',
-    'size' => 2,
+    'size' => 3,
     'link' => '',
     'link_remove' => '',
     'owner' => 'nodequeue',
@@ -43,8 +44,9 @@ function pcp_features_fe_nodequeue_export_fields() {
     'show_in_links' => 0,
     'reference' => 0,
     'reverse' => 0,
-    'insert_at_front' => 1,
     'i18n' => 0,
+    'insert_at_front' => 1,
+    'unique_entries' => 0,
     'subqueues' => 1,
     'types' => array(
       0 => 'feature_card',
@@ -67,8 +69,9 @@ function pcp_features_fe_nodequeue_export_fields() {
     'show_in_links' => 0,
     'reference' => 0,
     'reverse' => 0,
-    'insert_at_front' => 0,
     'i18n' => 0,
+    'insert_at_front' => 0,
+    'unique_entries' => 0,
     'subqueues' => 1,
     'types' => array(
       0 => 'member_staff',
@@ -91,8 +94,9 @@ function pcp_features_fe_nodequeue_export_fields() {
     'show_in_links' => 0,
     'reference' => 0,
     'reverse' => 0,
-    'insert_at_front' => 0,
     'i18n' => 0,
+    'insert_at_front' => 0,
+    'unique_entries' => 0,
     'subqueues' => 1,
     'types' => array(
       0 => 'member_staff',

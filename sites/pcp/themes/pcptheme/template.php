@@ -59,10 +59,25 @@ function _pcptheme_preprocess_node__pcp_section(&$variables) {
 
 function _pcptheme_preprocess_node__meeting(&$variables) {
 	$series_items = $variables['field_series'];
-	$series_status = $series_items[0]['taxonomy_term']->field_series_status['und'][0]['value'] ?
-		'current-series' : 'past-reports';
-	
-	$variables['series_status'] = $series_status;
+	$series_status = $series_items[0]['taxonomy_term']->field_series_status['und'][0]['value'];
+    switch($series_status) {
+        case 0:
+            $series_status_text = 'past_reports';
+            break;
+        case 1:
+            $series_status_text = 'current_series';
+            break;
+        case 2:
+            $series_status_text = 'subsections';
+            break;
+        case 3:
+            $series_status_text = 'members';
+            break;
+        case 4:
+            $series_status_text = 'blogs';
+            break;
+    }
+	$variables['series_status'] = $series_status_text;
 }
 
 /**
