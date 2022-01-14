@@ -505,12 +505,24 @@ table#recTable tr.goalRow td
     font-weight: bold;        
 }
 
+table#recTable tr.goalRow1 td{background-color: var(--pcpGreen) !important; color:white;}
+table#recTable tr.goalRow2 td{background-color: var(--pcpTeal) !important; color:white;}
+table#recTable tr.goalRow3 td{background-color: var(--pcpSalmon) !important; color:white;}
+table#recTable tr.goalRow4 td{background-color: var(--pcpPurple) !important; color:white;}
+
+
 table#recTable tr.recRow td
 {
     background-color: #DADADA;
     font-weight: bold;
     font-style: italic;
 }
+
+table#recTable tr.recRow1 td{color: var(--pcpGreen); background-color:white !important;}
+table#recTable tr.recRow2 td{color: var(--pcpTeal); background-color:white !important;}
+table#recTable tr.recRow3 td{color: var(--pcpSalmon); background-color:white !important;}
+table#recTable tr.recRow4 td{color: var(--pcpPurple); background-color:white !important;}
+
 
 
 /*Back to top styles*/
@@ -1351,6 +1363,7 @@ footer.wrapper
 footer.wrapper h3{
   color: #02455F;
   text-transform: uppercase;
+  font-family: 'Lato', Helvetica, Helvetica Neue, Arial;
   font-size: 1.5rem;
   margin: 0.9375rem 0;
 }
@@ -1358,6 +1371,10 @@ footer.wrapper div{
     color: #414141;
     font-size: 1.3125rem;
 }
+
+footer.wrapper a.emailLink{color: #135a69; font-size:21px; font-family: 'Lato', Helvetica, Helvetica Neue, Arial;}
+footer.wrapper a.emailLink:hover, footer.wrapper a.emailLink:focus{color: #1b7e93; text-decoration:none;}
+
 footer.wrapper div.connect-icons
 {
 margin: 0.9375rem 0;
