@@ -2,5 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/sites/pcp/modules/custom/nci/nci_SSO" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/sites/pcp/modules/custom/nci/nci_framework" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/sites/pcp/modules/custom/nci/nci_user_roles" vcs="Git" />
   </component>
 </project>

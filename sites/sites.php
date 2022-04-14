@@ -53,3 +53,26 @@
  * @see conf_path()
  * @see http://drupal.org/documentation/install/multi-site
  */
+$sites = array(
+  // AccrualNet
+  'accrualnet-dev.cancer.gov'  => 'accrualnet.cancer.gov',
+  'accrualnet-qa.cancer.gov'   => 'accrualnet.cancer.gov',
+  'accrualnet-test.cancer.gov' => 'accrualnet.cancer.gov',
+  'accrualnet.cancer.gov'      => 'accrualnet.cancer.gov',
+
+  // EBMS
+  'ebms-dev.nci.nih.gov'  => 'ebms.nci.nih.gov',
+  'ebms-qa.nci.nih.gov'   => 'ebms.nci.nih.gov',
+  'ebms-test.nci.nih.gov' => 'ebms.nci.nih.gov',
+  'ebms.nci.nih.gov'      => 'ebms.nci.nih.gov',
+
+  // MyNCI
+  'mynci-dev.cancer.gov'      => 'mynci.cancer.gov',
+  'mynci-qa.cancer.gov'    => 'mynci.cancer.gov',
+  'mynci-stage.cancer.gov' => 'mynci.cancer.gov',
+  'mynci.cancer.gov'          => 'mynci.cancer.gov',
+
+  '127.0.0.1'             => 'pcp',
+  'localhost'             => 'pcp',
+  'drupal-pcp.dd'          => 'pcp',
+);
