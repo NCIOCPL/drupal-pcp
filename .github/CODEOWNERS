@@ -1,0 +1,6 @@
+# One of the Configuration Management team members must approve pull requests
+# that involve specific files
+
+.htaccess   @nciocpl/config-mgmt
+web.config  @nciocpl/config-mgmt
+.gitmodules @nciocpl/config-mgmt
