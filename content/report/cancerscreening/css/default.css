@@ -175,9 +175,15 @@ section#reportContent
 }
 
 
+.header-container a
+{
+   color: white;
+}
+
 .header-container a:hover
 {
    text-decoration: none; 
+   color: white;
 }
 
 .searchForm
