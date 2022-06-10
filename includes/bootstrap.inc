@@ -1436,6 +1436,7 @@ function drupal_load($type, $name) {
   $filename = drupal_get_filename($type, $name);
 
   if ($filename) {
+    error_log('filename=' . $filename);
     include_once DRUPAL_ROOT . '/' . $filename;
     $files[$type][$name] = TRUE;
 
