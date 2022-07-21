@@ -6,8 +6,8 @@ core = 7.x
 
 files[] = nodequeue_generate.module
 
-; Information added by Drupal.org packaging script on 2020-08-24
-version = "7.x-2.3+1-dev"
+; Information added by Drupal.org packaging script on 2022-06-21
+version = "7.x-2.4"
 core = "7.x"
 project = "nodequeue"
-datestamp = "1598227826"
+datestamp = "1655841140"
