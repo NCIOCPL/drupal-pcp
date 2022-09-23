@@ -76,7 +76,10 @@ function nodequeue_add_action($node, $context) {
 /**
  * Old-style action to add a node to a queue.
  */
-function action_nodequeue_add($op, $edit = array(), $node) {
+function action_nodequeue_add($op, $edit, $node) {
+  if (empty($edit)) {
+    $edit = array();
+  }
   switch ($op) {
     case 'metadata':
       return array(
@@ -208,7 +211,10 @@ function nodequeue_remove_action($node, $context) {
 /**
  * Old-style action to remove a node from a queue.
  */
-function action_nodequeue_remove($op, $edit = array(), $node) {
+function action_nodequeue_remove($op, $edit, $node) {
+  if (empty($edit)) {
+    $edit = array();
+  }
   switch ($op) {
     case 'metadata':
       return array(
