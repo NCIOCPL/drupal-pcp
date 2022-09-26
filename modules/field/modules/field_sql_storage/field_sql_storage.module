@@ -366,8 +366,12 @@ function field_sql_storage_field_storage_update_field($field, $prior_field, $has
             $real_columns[] = _field_sql_storage_columnname($field['field_name'], $column_name);
           }
         }
-        db_add_index($table, $real_name, $real_columns);
-        db_add_index($revision_table, $real_name, $real_columns);
+        if(!db_index_exists($table,$real_name)) {
+            db_add_index($table, $real_name, $real_columns);
+        }
+       if(!db_index_exists($revision_table,$real_name)) {
+           db_add_index($revision_table, $real_name, $real_columns);
+        }
       }
     }
   }

@@ -1526,8 +1526,12 @@ function _filter_url($text, $filter) {
     // removed when the closing tag is found. Until the closing tag is found,
     // no replacements are made.
     $open_tag = '';
-
-    for ($i = 0; $i < count($chunks); $i++) {
+    if(is_countable($chunks)){
+      $chunk_count = count($chunks);
+    } else {
+      $chunk_count = 0;
+    }
+    for ($i = 0; $i < $chunk_count; $i++) {
       if ($chunk_type == 'text') {
         // Only process this text if there are no unclosed $ignore_tags.
         if ($open_tag == '') {
@@ -1557,7 +1561,13 @@ function _filter_url($text, $filter) {
       }
     }
 
-    $text = implode($chunks);
+    if(is_array($chunks)){
+      $text = implode($chunks);
+   } elseif (is_string($chunks)) {
+      $text = $chunks;
+    } else {
+      $text = '';
+    }
     // Revert back to the original comment contents
     _filter_url_escape_comments('', FALSE);
     $text = preg_replace_callback('`<!--(.*?)-->`', '_filter_url_escape_comments', $text);
