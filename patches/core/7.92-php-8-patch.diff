@@ -1,0 +1,66 @@
+From 31528bb11f03ae36d1ab93f955f231807a866157 Mon Sep 17 00:00:00 2001
+From: Erik Meyer <eriksmeyer@gmail.com>
+Date: Thu, 22 Sep 2022 16:31:47 -0400
+Subject: [PATCH] Re-applied changes to core from php 8 upgrade
+
+---
+ .../field_sql_storage/field_sql_storage.module   |  8 ++++++--
+ modules/filter/filter.module                     | 16 +++++++++++++---
+ 2 files changed, 19 insertions(+), 5 deletions(-)
+
+diff --git a/modules/field/modules/field_sql_storage/field_sql_storage.module b/modules/field/modules/field_sql_storage/field_sql_storage.module
+index 63161ab7..9fab1a1d 100644
+--- a/modules/field/modules/field_sql_storage/field_sql_storage.module
++++ b/modules/field/modules/field_sql_storage/field_sql_storage.module
+@@ -366,8 +366,12 @@ function field_sql_storage_field_storage_update_field($field, $prior_field, $has
+             $real_columns[] = _field_sql_storage_columnname($field['field_name'], $column_name);
+           }
+         }
+-        db_add_index($table, $real_name, $real_columns);
+-        db_add_index($revision_table, $real_name, $real_columns);
++        if(!db_index_exists($table,$real_name)) {
++            db_add_index($table, $real_name, $real_columns);
++        }
++       if(!db_index_exists($revision_table,$real_name)) {
++           db_add_index($revision_table, $real_name, $real_columns);
++        }
+       }
+     }
+   }
+diff --git a/modules/filter/filter.module b/modules/filter/filter.module
+index 6b911cb8..bc198b03 100644
+--- a/modules/filter/filter.module
++++ b/modules/filter/filter.module
+@@ -1526,8 +1526,12 @@ function _filter_url($text, $filter) {
+     // removed when the closing tag is found. Until the closing tag is found,
+     // no replacements are made.
+     $open_tag = '';
+-
+-    for ($i = 0; $i < count($chunks); $i++) {
++    if(is_countable($chunks)){
++      $chunk_count = count($chunks);
++    } else {
++      $chunk_count = 0;
++    }
++    for ($i = 0; $i < $chunk_count; $i++) {
+       if ($chunk_type == 'text') {
+         // Only process this text if there are no unclosed $ignore_tags.
+         if ($open_tag == '') {
+@@ -1557,7 +1561,13 @@ function _filter_url($text, $filter) {
+       }
+     }
+ 
+-    $text = implode($chunks);
++    if(is_array($chunks)){
++      $text = implode($chunks);
++   } elseif (is_string($chunks)) {
++      $text = $chunks;
++    } else {
++      $text = '';
++    }
+     // Revert back to the original comment contents
+     _filter_url_escape_comments('', FALSE);
+     $text = preg_replace_callback('`<!--(.*?)-->`', '_filter_url_escape_comments', $text);
+-- 
+2.37.0
+

@@ -506,10 +506,7 @@ function nodequeue_contextual_links_view_alter(&$element, $items) {
   );
 
   $elview = $element['#element']['#views_contextual_links_info']['views_ui']['view'];
-  $relationship = '';
-  if (!empty($elview->display_handler->handlers['argument']['name']->relationship)) {
-    $relationship = $elview->display_handler->handlers['argument']['name']->relationship;
-  }
+  $relationship = isset($elview->display_handler->handlers['argument']['name']->relationship);
   if (!empty($relationship) && $relationship == 'nodequeue_nodes_node') {
     $argument = $elview->display_handler->handlers['argument']['name']->argument;
   }
